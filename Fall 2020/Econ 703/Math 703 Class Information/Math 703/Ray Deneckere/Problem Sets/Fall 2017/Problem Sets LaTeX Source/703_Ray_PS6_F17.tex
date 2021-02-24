@@ -1,0 +1,86 @@
+\documentclass[12pt,leqno]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\textheight 8.5in
+\topmargin -.5in
+
+\newcommand{\lgrange}{\mathscr{L}}
+
+\begin{document}
+
+\begin{center}
+\Large{Homework {\#}1 Answers}\\
+\large{Garrett Anstreicher}
+\end{center}
+
+\bigskip
+\noindent {\bf Problem 1:}\\
+\indent A) We have
+$$g'(\lambda) = \frac{\partial}{\partial \lambda} f(x^* + \lambda u) = f'(x^* + \lambda u) u.$$
+Evaluated at zero, this becomes $g'(0) = f'(x^*)\cdot u$, which is equivalent to the directional derivative of $f$ evaluated at $x^*$ in the direction of the normed vector $u$.
+
+\bigskip
+\indent B) We proceed by contrapositive. I will demonstrate that if $x^*$ is not a strict local maximum of $f$, then for every $\epsilon>0$ I can find a $u^*$ and a $\lambda^*<\epsilon$ such that $g(\lambda^*)\geq g(0)$ for that particular $u^*$, implying that $g$ cannot be a strict local max for every $u$ for any arbirary epsilon ball around 0.\\ 
+	\indent Set $\epsilon>0$. Because $x^*$ is not a strict local maximum for $f$, $\exists x' \in B(x^*, \epsilon): x' \neq x, f(x')\geq f(x^*)$.  Define $\lambda = |x'-x^*|<\epsilon$ and 
+$$u^* = \frac{x'-x^*}{|x'-x^*|} \in S.$$
+Then, evaluating at $u^*$, we have:
+$$g(\lambda^*) = f(x^* + \lambda^* u^*) = f(x') \geq f(x^*) = g(0)$$
+which means that 0 is not a strict local maximum of $g$ for $u^*$ for the arbitrary epsilon ball around 0, thus fulfilling the contrapositive.
+
+\bigskip
+\noindent {\bf Problem 2:}\\
+\indent This problem demanded large amounts of scratch work that I have attached to this document but have not punched into LaTeX because it would take a long time.
+
+\indent A) The critical points are $(0, 0), (-1, 2), (-1, -2), (-5/3, 0).$ Of these, we have a local minimum at $(0, 0)$ and a local maximum at $(-5/3, 0)$. The latter two critical points are both saddle points. This function has no global maximum or minimum because the value of the function can be made arbitrarily large or small by holding $y$ constant at 0 while taking $x$ arbitrarily large or small. 
+
+\indent B) The only critical point for this function is (1/2, -1). This point is a local minimum as well as a global minimum because there is no way to make the function arbitrarily small. 
+
+\indent C) The critical points are (0, 0), (0, a), (a, 0), and $(a/3, a/3).$ The final of these is a local maximum, while the other three are all saddle points. The local maximum is a global maximum as well because $f = xya - x^2y - xy^2$, and the squars will lead the second and third terms to grow faster than the first, thus plunging the function into increasingly negative depths. As there is no way to make the function arbitrarily large, the sole local maximum will also be global. 
+
+\bigskip
+\noindent {\bf Problem 3:}\\
+\indent We define:
+$$\lgrange = x^2 - y^2 - \lambda(1 - x^2 - y^2)$$
+$$\frac{\partial \lgrange}{\partial x} = 2x + 2x\lambda=0$$
+$$\frac{\partial \lgrange}{\partial y} = -2y + 2y\lambda = 0$$
+$$\frac{\partial \lgrange}{\partial \lambda} = 1- x^2 -y^2 = 0.$$
+So we have either $2x\lambda = -2x$ or $2y\lambda = 2y$, which in turn implies that $\lambda$ is equal to -1 or 1. If we have $\lambda=1$, then we must have $x=0$, which, when plugged into the third equation, implies that $y = +/- 1$. The same logic applies when we have $\lambda = -1$ with the variables flipped, so the Lagrangian method produces the points (1, 0), (-1, 0), (0, 1), and (0, -1). The latter two points minimize the objective function and the former two maximize it. \\
+\indent Proceeding in the other method yields
+$$f(x) = x^2 - (1-x^2) = 2x^2 - 1$$
+This function has no maximum because we can supposedly choose $x$ arbitrarily high, but it does have a minimum at $x=0$, which then yields $y = +/- 1$ when applied to the constraint. So, the substitution method will only solve half of the problem depending on which variable is substituted for: substituting $y$ for $x$ yields the minima of the unconstrained problem; the converse will reveal the maxima.
+
+
+\bigskip
+\noindent {\bf Problem 4:}\\
+\indent Rearranging the constraint to $y = 1-x$ and substituting yields:
+$$f(x) = 3x^2 - 3x + 1$$
+which clearly has no maximum, and substituting $x$ for $y$ yields the same result. Forming the Lagrangean, we have:
+$$\lgrange = x^3 + y^3 - \lambda(1 - x - y)$$
+$$\frac{\partial \lgrange}{\partial x} = 3x^2 + \lambda = 0$$
+$$\frac{\partial \lgrange}{\partial y} = 3y^2 + \lambda = 0$$
+$$\frac{\partial \lgrange}{\partial \lambda} = 1 - x - y = 0.$$
+Then we must have $x^2 = y^2$, so $|x| = |y|$, and when we input this into $x + y = 1$ we immediately see that $x = y = 1/2$, which happens to be the global minimum for the objective function.
+
+\bigskip
+\noindent {\bf Problem 5:}\\
+\indent We form:
+$$\lgrange = xy - \lambda(2a^2 - x^2-y^2).$$
+$$\frac{\partial \lgrange}{\partial x} = y + \lambda2x = 0$$
+$$\frac{\partial \lgrange}{\partial y} = x +  \lambda2y = 0$$
+$$\frac{\partial \lgrange}{\partial \lambda} = 2a^2 - x^2 - y^2 = 0.$$
+This leads to
+$$\frac{-y}{2x} = \frac{-x}{2y}$$
+$$x^2 = y^2$$
+Which we can then input into the constraint:
+$$x^2 + y^2 = 2a^2$$
+$$x^2 + x^2 = 2a^2$$
+$$x^2 = a^2$$
+$$x = +/-a$$
+Which gives us our maximum points of $(a, a), (-a, -a)$ and minimum points of $(a, -a)$ and $(-a, a)$. 
+
+\end{document}

@@ -1,0 +1,169 @@
+\documentclass[12pt, reqno]{article} %title page para titulo en otra pag
+\renewcommand{\baselinestretch}{1.1}
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+\usepackage{geometry} % to change the page dimensions
+\geometry{letterpaper} % or letterpaper (US) or a5paper or....
+\usepackage{graphicx} % support the \includegraphics command and options
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+
+\usepackage{fancyhdr}
+\setlength{\headheight}{15.2pt}
+\pagestyle{fancyplain} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{1pt} % customise the layout...
+\renewcommand{\footrulewidth}{1pt}
+\lhead{ECON 703: Mathematical Economics}\chead{}\rhead{Fall 2018}
+\lfoot{TA: Minseon Park}\cfoot{\thepage}\rfoot{\today}
+\usepackage{anysize}
+\marginsize{2cm}{2cm}{0.5cm}{2.5cm}
+
+\usepackage{sectsty}
+\usepackage{amsmath}
+\usepackage{amsbsy}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\p}{\mathbb{R}_+}
+\newcommand{\pr}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\e}{\varepsilon}
+\newcommand{\fin}{\hfill$\Diamond$}
+\newcommand{\sseq}{\subseteq}
+\newcommand{\bfs}{\boldsymbol}
+\newcommand{\enum}{\begin{enumerate}}
+\newcommand{\fenum}{\end{enumerate}}
+\newcommand{\enlist}{\begin{itemize}}
+\newcommand{\fenlist}{\end{itemize}}
+\usepackage{enumerate}
+\usepackage[all]{xy}
+\usepackage{amssymb} 
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage[pdftex,colorlinks=true,linkcolor=black]{hyperref} 
+\usepackage[pdftex,usenames]{color}
+%\makeatletter\renewcommand\theenumi{\@alph\c@enumi}\makeatother
+%\renewcommand\labelenumi{(\theenumi)}
+%\renewcommand{\theenumii}{\arabic{enumii}}
+%\renewcommand{\labelenumii}{(\theenumii)}
+\renewcommand\tablename{Table}
+\setlength\unitlength{3mm}
+\usepackage{upgreek}
+\setlength\headheight{2cm}
+\setlength\headsep{1cm}
+\usepackage{ wasysym }
+\usepackage{colortbl}
+
+%_______________________________End of preamble__________________________
+
+\title{ECON 703 Practice Problems 3}
+\author{Minseon Park} 
+
+\begin{document}
+\begin{center}{\Large{\bf Practice Problems 3}}\end{center}
+
+%________________________________Key Concepts _________________________________
+\vspace{0.5cm}
+
+\underbar{Office Hours:} Tuesdays, Thursdays from 3:30 to 4:30 at SS 7218 (TA Preparation Room).
+
+\underbar{E-mail:} mpark88@wisc.edu
+
+%__________________________Exercises_______________
+
+
+
+
+\enum
+
+
+
+\item * Show that if $\{x_k\} \subset \R$ converges to $x\in \R$, so does every subsequence.
+
+{\bf Answer:} Subsequences preserve the order, and the fact that $\{x_k\}$ converges to $x$, means that for any $\epsilon>0$ all the elements with large enough index will satisfy $|x_k-x|<\epsilon$ therefore, the elements of any subsequence, $\{x_{k_s}\}$, with large enough index (probably a different threshold, though) will also satisfy $|x_{k_s}-x|<\epsilon$. 
+
+\item * Show that $\{x_k\} \subset \R$ converges to $x\in \R$ iff every subsequence of it has a subsequence that converges to $x$.
+
+{\bf Answer:} ($\Rightarrow$) From the previous argument, if $\{x_k\}$ converges to $x$, so does every subsequence, moreover, one can see now any such subsequence as a sequence that converges to $x$, so all its subsequences would also converge to $x$. 
+
+($\Leftarrow$) Suppose that any subsequence has a sub-subsequence that converges to $x$, but $\{x_k\}$ does not converge to $x$. Then there exist an $\epsilon>0$ such that $\forall \ N\in \N$ there exist a $k^*\geq N$ with $|x_k-x|>\epsilon$. So let's construct a subsequence by letting $N=1$ choosing a $k^*$ with the previous property and letting $x_{k_1}=x_{k^*}$, then making $N=2$ and choosing another $k^{**}$ with $k^{**}>k^*$ to have $x_{k_2}=x_{k^{**}}$ if no such $k^{**}$ exists, move on to $N=3$ to construct $x_{k_2}$, we will eventually be able to construct it because $N>k^*$ eventually. We have constructed recursively a subsequence of $\{x_k\}$ whose elements all satisfy that $|x_{k_s}-x|>\epsilon$, this subsequence cannot possibly have a further subsequence that converges to $x$, a contradiction.
+
+\item * Suppose $\{p_n\}$ and $\{q_n\}$ are Cauchy sequences in a metric space $X$. Show that the sequence $\{d(p_n,q_n)\}$ converges. 
+{\bf Answer:} What we want to show is $|d(p_n,q_n)-d(p_m,q_m)|$ converges to zero. We'll take advantage of $\{p_n\}$ and $\{q_n\}$ are Cauchy by using a small trick which is widely used. 
+\begin{align*}
+d(p_n,q_n) &\leq d(p_n,p_m)+d(p_m,q_n) \\
+			&\leq d(p_n,p_m)+d(p_m,q_m)+d(q_m,q_n) \\
+\iff d(p_n,q_n)-d(p_m,q_m) &\leq d(p_n,p_m)+d(q_m,q_n) \\
+\end{align*}
+
+We know that the right hand side of inequality goes to zero as $n,m \rightarrow \infty$. Then by applying the same steps changing the role of $m,n$, we have $|d(p_n,q_n)-d(p_m,q_m)| \leq d(p_n,p_m)+d(q_m,q_n) \rightarrow 0$
+
+
+\item Prove or disprove the following:
+\enum
+\item $y_k=\frac 1 k$ is a subsequence of $x_k=\frac 1 {\sqrt{k}}$.
+
+{\bf Answer:} Yes, $y_k$ is the subsequence that only takes the elements of $x_k$ where $k$ is a square number, note the order is preserved.
+\item $x_k=\frac 1 {\sqrt{k}}$ is a subsequence of $y_k=\frac 1 k$.
+
+{\bf Answer:} No, since we know that $\sqrt{2}\notin\N$ so $x_2\notin\{y_k\}$ for any $k$.
+\fenum
+
+
+\bigskip
+{\bf OPEN AND CLOSED AND COMPACT SETS}
+
+\item * Is $(0,1)$ a open set in $\R$? what about $\R^2$?
+
+{\bf Answer:} Yes it is open in $\R$. By letting $r_x=0.5 \textnormal{min}(x,1-x)$, then we can make an open ball $B(x,r_x)=\{y\in \R | |y-x|<r_x \}$ whose element are all in $(0,1)$. In $\R^2$, regardless of which $\epsilon$ we choose, $(x,0.5\epsilon)$ is in the open ball around $x$ with radius $\epsilon$, but not in the set $\{(x,y)|x\in(0,1), y=0\}$
+
+\item * Disprove that $[0,1)$ is closed. Is it open?
+
+{\bf Answer:} it is not open because there are no open set contained in the set $A=[0,1)$ that contain the point $x=0$. Similarly there are no open sets in $A^c$ that contain the point $x=1$, so it is also not closed.
+
+\item Prove that $[0,1]$ is a closed set.
+
+{\bf Answer:} Consider its complement $A^c=(-\infty, 0)\cup(1,\infty)$. Let $x$ be an arbitrary element of it if $x$ is negative consider $B(x,|x|/2)\subset A^c$. if $x$ is positive consider $B(x, |x-1|/2)\subset A^c$, so we have found an open ball containing $x$ contained in the set $A^c$, thus this set is open, so $A$ is closed.
+
+\item Is $A=[0,1)^2$ an open set in $\R^2$?
+
+{\bf Answer:} No, if $(0,0)\in B$ and $B$ is open, then $B\not \subset A$.
+%\item * If a set $A\subseteq \R$ contains all its limit points, is it closed?
+%\newpage
+\item For each of the following subsets of $\R^2$, draw the set and determine whether it is open, closed, compact or connected (the last two properties can be delayed until next class). Give reasons for your answers
+\enum
+\item $\{(x,y); x=0, y\geq 0\}$
+
+{\bf Answer:} This is a vertical line equal to the positive $y$ axis. it is not open because it contains no open balls, however, it is closed because any point $(x,y)$ in its complement can be contained by a ball with radius equal to $|y|/2$ and centered at the point, it is not compact because it is not bounded, but it is connected.
+
+\item $\{(x,y); 1\leq x^2+y^2<2 \}$
+
+{\bf Answer:} This is a "doughnut" that contains the border of the inner circle, but not that of the outer circle. Therefore, it is not closed, because it lacks some of its limit points, but it is also not open because its complement also lacks some of its limit points. Hence it is not compact because it is not closed, but it is clearly connected.
+
+\item $\{(x,y); 1\leq x \leq 2 \}$
+
+{\bf Answer:} This is a vertical "strip" with $x$ coordinate between $1$ and $2$ including the border, so it is closed, it is not open, not compact (because it is unbounded) and connected.
+ 
+\item $\{(x,y); x=0 \mbox{ or } y= 0, \mbox{ but not both}\}$
+
+{\bf Answer:} This set is equal to the axis but without the center. because it lacks the center it is not close, thus not compact. It also does not contain any open ball so it is not open moreover it is not connected, there are many ways to partition the set, one will be to put two of the "branches in one set and the other two in another, the closure of one of them will include the center, but will not intersect with the other.
+\fenum
+
+
+{\bf MISCELLANEOUS}
+\item * (Manipulating Subscripts) We say a random variable $X$ follows a Poisson distribution if $p(X=x)=exp(-\lambda)\frac{\lambda^x}{x!}, x\in \{0\} \cup \N$, given a parameter $\lambda$. Show that $E(X)=\lambda$. (hint: Use $E(X)=\Sigma^\infty_{x=0} x exp(-\lambda)\frac{\lambda^x}{x!}$, and $\Sigma_{x=0}^\infty p(X=x) = \Sigma_{x=0}^\infty exp(-\lambda)\frac{\lambda^x}{x!}=1$)
+
+{\bf Answer:} 
+\begin{align*}
+E(x) &= \Sigma^\infty_{x=0} x exp(-\lambda)\frac{\lambda^x}{x!} \\
+	&= 0 + \Sigma^\infty_{x=1} x exp(-\lambda)\frac{\lambda^x}{x!} \\
+	&= \Sigma^\infty_{y=0} (y+1) exp(-\lambda)\frac{\lambda^{(y+1)}}{(y+1)!}, y=x-1 \\
+	&= \lambda \Sigma^\infty_{y=0} exp(-\lambda)\frac{\lambda^y}{y!} \\
+	&= \lambda
+\end{align*}
+\fenum
+
+\end{document}

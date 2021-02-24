@@ -1,0 +1,94 @@
+\documentclass[12pt,leqno]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\textheight 8.5in
+\topmargin -.5in
+
+\newcommand{\lgrange}{\mathscr{L}}
+
+
+\begin{document}
+
+\begin{center}
+\Large{Homework {\#}7 Answers}\\
+\large{Garrett Anstreicher}
+\end{center}
+
+\bigskip
+\noindent {\bf Problem 1:}\\
+\indent A) This production is Cobb-Douglas, so we know immediately that we will want $x = y = 40,000$. For solving for the $\lambda$ in the Lagrangian equation, we have
+$$\lambda = \frac{25\sqrt{y}}{\sqrt{x}} = \frac{25*200}{200} = 25,$$
+which will be useful in the next part of the question.
+
+\bigskip
+\indent B) Let $V$ be the value function of $Q$ given a particular budget $w$. We know from part A) that a unique solution exists, so the value function is equivalent to the Lagrangian equation evaluated at optimal values for $x, y$ and $\lambda$. Applying the envelope theorem, we can compute how sensitive production is to budget when at budget level 80,000:
+$$\frac{\partial V}{\partial w} = \frac{\partial \lgrange}{\partial w}\rvert_{x^*, \lambda^*, \mu^*} = \lambda \rvert_{x^*, \lambda^*, \mu^*} = \lambda^* = 25$$
+So, our estimate for the loss of production from reducing the budget by 1,000 is $25*1,000 = 25,000$. 
+
+\bigskip
+\indent C) The actual production loss is:
+$$50(40,000) - 50(39,500) = 25,000,$$
+the same as our estimate. 
+
+\bigskip
+\noindent {\bf Problem 2:}\\
+\indent A) We can think of this as initially operating in the xyz coordinate plane. Applying the condition that $x^2+y^2 = 1$ restricts our space to a cylinder of radius 1 centered around the origin that spans the entire z-axis. Applying the $x + z = 1$ condition will take a single diagonal slice out of the cylinder as the $x + z = 1$ plane passes through it. This will bound all our values for x, y and z, so a maximum for this problem should exist.
+
+\bigskip
+\indent B) 
+$$Dg = \begin{bmatrix}
+	2x & 2y & 0 \\
+	1 & 0 & 1
+\end{bmatrix}.$$
+This will be linearly dependent when $x = y = 0$, which does not fall in the constraint.
+
+\bigskip
+\indent C) Setting up the Lagrangian and taking the five partials and setting them to zero results in the following series of equations:
+\begin{eqnarray}
+yz - 2x\lambda_1 - \lambda_2 = 0 \\
+xy - 2y\lambda_1 = 0 \\
+xy - \lambda_2 = 0\\
+x^2 + y^2 = 1 \\
+x + z = 1
+\end{eqnarray}
+We first plug $\lambda_2 = xy$ and $\lambda_1 =\frac{xz}{2y}$ into (1) to yield
+$$xy = yz - \frac{x^2z}{y}$$
+Divide all terms by $y$ and substitute in the identities $y^2 = 1- x^2$ and $z = 1-x$ to yield:
+$$x = 1-x - \frac{x^2(1-x)}{1-x^2}$$
+$$2x - 1 = \frac{x^2}{1+x}$$
+$$2x^2 + x - 1 = -x^2$$
+$$3x^2 + x - 1 = 0$$
+Applying the quadratic formula yields
+$$x = \frac{-1 +/- \sqrt{13}}{6}$$
+It turns out that only term that subracts the root thirteen is the maximizer, but even I have a limit as to how much algebra and typesetting I'm willing to do, so I just wolfram alpha'd the the answers for $y$ and $z$: 
+$$x, y, z = \left(\frac{-1-\sqrt{13}}{6},\frac{-1}{3}\sqrt{\frac{1}{2}(11-\sqrt{13}}, \frac{7 + \sqrt{13}}{6}\right).$$
+
+
+
+\bigskip
+\noindent {\bf Problem 3:}\\
+\indent The constraint will bind with equality because if we're trying to maximize a sum and can increase the individual elements a little bit, we will certainly want to. So, we can set up the Lagrangian:
+$$\lgrange = \sum^T_{t=1} \frac{1}{2^t}\sqrt{x_t} + \lambda\left(1 - \sum^T_{t=1}x_t\right)$$
+Take the partial derivative of this expression with respect to an arbitrary $x_t$:
+$$\frac{\partial \lgrange}{\partial x_t} = \frac{1}{2^t}\frac{1}{2\sqrt{x_t}} = \lambda \Longrightarrow \sqrt{x_t} = \frac{1}{2^{t+1}\lambda} \Longrightarrow x_t = \frac{1}{4^{t+1}\lambda^2}$$
+We can put this expression of $x_t$ into the budget constraint to obtain an expression for $\lambda$:
+$$\sum^T_{t=1} \frac{1}{4^{t+1}\lambda^2} = 1 \Longrightarrow \frac{1}{4 \lambda^2} \sum^T_{t=1} \frac{1}{4^t} = 1$$
+Invoking the mighty gods of Wolfram Alpha, we expand the sum and obtain:
+$$\frac{1}{4\lambda^2}\left(\frac{1 - 4^{-T}}{3} = 1\right) \Longrightarrow \lambda^2 = \frac{1 - 4^{-T}}{12}$$
+We finish by substituting in this value for $\lambda^2$ to obtain an expression for choosing an arbitrary $x_t$:
+$$x_t = \frac{1}{4^{t+1}\lambda^2} = \frac{12}{4^{t+1}(1 - 4^{-T})}.$$
+
+\bigskip
+\noindent {\bf Problem 4:}\\
+\indent This utility function will demand that $x_2 = x_3$. As a result, this problem can be verbally expressed as the consumer choosing between spending everything on $x_1$ and buying some $x_1$ and complementing it with equal amounts of $x_2$ and $x_3$. Plugging this problem into a Lagrangian won't go well because Leontief functions aren't differentiable.
+
+\indent It may be possible to use the knowledge that any bundle of consumption that includes $x_2$ must have $x_2=x_3$ to be optimal to try to reframe the problem as:
+$$\max_{x_1, x_2} x_1^{1/3} + x_2 \;\; \text{such that} \;\; p_1 x_1 + (p_2 + p_3)x_2 \leq I$$
+And try to go from there, but attempting to solve this via Lagrangeans results in some strange equations, perhaps because preferences are convex in one good and linear in another.
+
+\end{document}

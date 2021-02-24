@@ -1,0 +1,62 @@
+\documentclass[12pt,leqno]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\textheight 8.5in
+\topmargin -.5in
+
+
+\begin{document}
+
+\begin{center}
+\Large{Homework {\#}1 Answers}\\
+\large{Garrett Anstreicher}
+\end{center}
+
+\bigskip
+
+\noindent Problem 1:\\
+\indent We will verify the contrapositive of the statement: if $x$ is not a blue banana, then $x \notin \emptyset$. We know $x \notin \emptyset$ because $\emptyset$ contains no elements. This completes the proof of the vacuously true statement.
+
+\bigskip
+\noindent Problem 2:\\
+\indent The statement may be roughly interpreted as saying one may induce arbitrarily small changes in the economy's set of equilibrium prices through making sufficiently small alterations to the economy's utility functions and endowments. The negation of the statement is as follows:
+
+\medskip
+$\exists \epsilon > 0$ such that $\forall \delta > 0, \exists \rho^{\prime}$ satisfying $||\rho - \rho^{\prime}|| < \delta$ such that $\forall p^{\prime} \in E(\rho^{\prime})$ we have $||p - p^{\prime}|| \geq \epsilon$.
+
+\bigskip
+\noindent Problem 3:\\
+\indent Converse: if $x^2 - x > 0$, then $x < 0$. \\
+\indent Contrapostive: If $x^2 -x \leq 0$, then $x \geq 0$.
+
+\medskip
+\noindent The converse is false because it fails for $x=-1$ and all other negative reals. The original statement is true because $x^2>0 \forall x<0$ and $0-x> 0 \forall x<0$. So, for all $x<0$, we have $x^2-x > 0-x > 0$. Because the original statement and its contrapositive are logically equivalent, this demonstrates the contrapositive to be true as well.
+
+\pagebreak
+\bigskip
+\noindent Problem 4:\\
+\indent Let $g$: $(-\infty, -1) \cup [0] \cup (1, \infty) \rightarrow \mathds{R}$ be given by the rule $g(x) = x^3-x$. The function is strictly and continuously decreasing from zero as $x$ decreases from -1 and strictly increasing from zero as $x$ increases from 1. $g(x)= 0$ only when $x=0$, so no two values of $x$ yield the same real number, so the function is injective. Furthermore, because the function maps the domain to all real numbers, the function is surjective as well. The graph for the function and its inverse are as follows; the inverse generated through flipping the original over the line $y=x$. 
+
+\begin{figure}[!h]
+\includegraphics[width=0.5\textwidth]{base_graph}
+\includegraphics[width=0.5\textwidth]{inverse_graph}
+
+\end{figure}
+
+\bigskip
+\noindent Problem 5:\\
+\indent Let the sequence \{$x_n$\}, be given by:
+
+\medskip
+$x_n$ = $\begin{cases}
+	0 \text{, $n$ is even} \\
+	n \text{, $n$ is odd}
+\end{cases}$\\
+This sequence does not converge because every other term grows continually. However, convergent subsequences can be made through selecting only the zeroes in the sequence, thus constructing a sequence that converges to zero. Subsequences of this sequence cannot converge to any other value because the sequence is infinite and does not stop at any specific natural number, i.e. the sequence will either continue growing or return to zero after a specific natural number has been reached.
+
+
+\end{document}

@@ -1,0 +1,108 @@
+\documentclass[12pt,leqno]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\textheight 8.5in
+\topmargin -.5in
+
+
+\begin{document}
+
+\begin{center}
+\Large{Homework {\#}2 Answers}\\
+\large{Garrett Anstreicher}
+\end{center}
+
+\bigskip
+
+\noindent Problem 1:\\
+\indent We will prove the first of the two statements. The sum $\limsup a_k + \limsup b_k$ is undefined if one of the two is equal to $\infty$ and the other $-\infty$, so we will ignore this special case. In the case where either $\limsup a_k = \infty$ or $\limsup b_k = \infty$, the inequality must hold, as we cannot have $\limsup(a_k + b_k)$ \textgreater $\infty$.
+
+Now consider the case where both $a_k$ and $b_k$ do not converge to $+/- \infty$. Consider an arbitrary infinite subsequences of the sequences $\{a_i\}_{i\geq n}, \{b_i\}_{i\geq n}, n \in \mathds{N}$. Define $\alpha_n = \sup a_i, \beta_n = \sup b_i$. We must have $\alpha_n, \beta_n \in (-\infty, \infty)$, because the sequences cannot actually contain $+/-\infty$ and we assume beforehand that they do not approach either value arbitrarily closely. Because $\alpha$ and $\beta$ are the supremums of the two sequences, we must have
+$$\alpha_n + \beta_n \geq a_i + b_i \forall a_i \in \{a_i\}, b_i \in \{b_i\},$$
+which implies
+$$\alpha_n + \beta_n \geq sup(a_i + b_i) \forall a_i \in \{a_i\}, b_i \in \{b_i\}.$$
+Because we are selecting for an arbitrary $n$ threshold for our infinite subsequences, we can take $n$ arbitrarily large while preserving this weak inequality, which leads to
+$$\limsup a_k + \limsup b_k \geq \limsup(a_k + b_k)$$
+as desired.
+
+Finally, consider the case where one or both of the sequences have limit supremums of $-\infty.$ Take arbitrary infinite subsequences of the sequences as before, and define $\alpha_n$ and $\beta_n$ the same way. We will still have $\alpha_n, \beta_n \in (-\infty, \infty)$ Because for any value $n \in \mathds{N}$ the series will still contain real numbers, which are definitionally greater than $-\infty$. Also define $\beta_1 = \sup \{b_i\}_{i \geq 1}.$ By the definition of convergence to $-\infty$, for any $M \in \mathds{R}$ we have some $N \in \mathds{N}$ where the following holds:
+$$\alpha_n \leq M - \beta_1 \forall n\geq N$$.
+Note that $b_n$ is non-increasing with $n$ because it takes the supremum of a set with more and more elements removed. So, we must have $\beta_n \leq \beta_1$, which means we have 
+$$\alpha_n + \beta_n \leq M \forall n\geq N$$
+$$\sup(a_n + b_n) \leq \alpha_n + \beta_n \leq M \forall n\geq N$$
+As we take $n$ arbitrarily large, this will lead us to $\limsup(a_k + b_k) = -\infty$. Since $-\infty \leq -\infty$, which completes the proof. Proving the second statement simply requires flipping the directions of inequalities and replacing sups with infs.
+
+\bigskip
+Examples where strict inequalities are met: Consider the sequences $\{A_n\}$, $\{B_n\}$ defined by:
+
+$$A_n = \begin{cases}
+	-1 \text{, n is even} \\
+	1 \text{, n is odd}
+\end{cases}$$
+
+$$B_n = \begin{cases}
+	-1 \text{, n is odd} \\
+	1 \text{, n is even}
+\end{cases}$$
+
+Then $\limsup(A_n) = \limsup(B_n) = 1$ and $\liminf(A_n) = \liminf(B_n) = -1$. But note that the sequence $C_n = A_n + B_n = \{0, 0, 0 . . .\}$, so $\limsup(C_n) = \liminf(C_n) = 0$. This pair of sets thus satisfies the strict inequality, with 
+$$\limsup(A_n + B_n) = 0 \text{\textless} 2 =  \limsup(A_n) + \limsup(B_n)$$
+and
+$$\liminf(A_n + B_n) = 0 \text{\textgreater} -2 =  \liminf(A_n) + \liminf(B_n)$$.
+
+\bigskip
+\noindent Problem 2:\\
+\indent a) $x_k$ is an infinite sequence of -1 and 1. So, the limit supremum is 1 and the limit infimum is -1.
+
+\smallskip
+\indent b) limit supremum is $\infty$. Limit infimum is $-\infty$.
+
+\smallskip
+\indent c) The series' supremum starts at 2 at $k=1$ and then steadily approaches 1 as the $1/k$ value decreases as we add it to 1 for all even $k$. Thus, the limit supremum is 1. Symmetrically, the limit infimum is -1.
+
+\smallskip
+\indent d) 1 \textgreater -k/2 $\forall k \in \mathds{N}$, so the limit supremum is 1. The value $-k/2$ decreases arbitrarily as we move up increasingly large even $k$s, so the limit infimum is $-\infty$.
+
+
+\bigskip
+\noindent Problem 3:\\
+\indent We will show that the removal of a finite number of points from an open set $X$ results in all remaining points still being interior points, thus retaining the openness of $X$. Take an arbitrary point $x$ in the original set $X$. We know that $x$ is an interior point of $X$, and $\exists$ some radius $r$ such that $B(x, r) \subset X$. But then there exists an infinite and dense set of $r_n$ that also satisfy this property such that 0 \textless $r_n$ \textless $r$. Arrange this set in a monotonically decreasing sequence $\{r_n\}$. Now remove some $n \in \mathds{N}$ elements from $X$ that do not include $x$, indexed by $N = \{n_1, n_2, . . . n_n$\}. WLOG assume that $n^* \in N$ is the element closest to $x$, and define $r^* = $\textbar $x-n^*$\textbar. But our construction of $\{r_n\}$ guarantees that $\exists M \in \mathds{N}$ such that $n \geq M \Rightarrow r_n<r^*$. So we can still construct neighborhoods around $x$ that exists entirely in $X$. So, the arbitrary remaining point $x$ remains to be an interior point, so $X$ is open.
+
+\medskip
+\indent This property may not hold when a countably infinite number of elements are removed from the open set. Take the open set $(0, 1) \cap \mathds{Q}$. We know that the rationals are countably infinite, so we can remove every point from this set besides the singleton point $\{.5\}$, leaving us a closed set.
+
+
+\bigskip
+\noindent Problem 4:\\
+{\bf Sufficiency}\\
+\indent Suppose $A \subset X$ is closed. Then $A$ must contain all its limit points. Now suppose $\{x_n\} \subset A \rightarrow x$. Then that means that $\forall \epsilon$ \textgreater 0, $\exists N \in \mathds{N}$ such that $n \geq N \Rightarrow$ \textbar $x_n - x$ \textbar \textless $\epsilon.$ But this means that for an arbitrary neighborhood of radius $\epsilon$ \textgreater 0 around $x$, we can find some $x_n \neq x$ that also exists in the neighborhood. This implies that $x$ is a limit point of $A$, and our assumption that $A$ is closed implies that $x \in A$.
+
+\medskip
+\noindent {\bf Necessity}\\
+\indent From the sufficiency portion we know that $\{x_n\} \subset A \rightarrow x$ implies that $x$ is a limit point of $A$. Thus, the statement that $\{x_n\} \subset A \rightarrow x$ implies that $x \in A$ is equivalent to saying that $A$ contains all of its limit points. Thus $A$ is closed by definition.
+
+
+\bigskip
+\noindent Problem 5:\\
+\indent It is clear that any $p$ \textless $-\sqrt{3}$ and any $p$ \textgreater $\sqrt{3}$ fail to satisfy 2 \textless $p^2$ \textless 3, so the set $E$ is bounded by +/- $\sqrt{3}$. To show that $E$ is closed, consider $E^c$, which is $((-\infty, -\sqrt{3}) \cup (-\sqrt{2}, \sqrt{2}) \cup (\sqrt{3}, \infty)) \cap \mathds{Q}$. Between any irrational and a rational an additional rational may be inserted, so any element of $E^c$ may have an open ball constructed around it that remains in $E^c$. This means that $E^c$ is open, which implies that $E$ is closed (note, though, that this argument also quickly implies that $E$ is open in $\mathds{Q}$. So, $E$ is open as well as closed in $\mathds{Q}$). Despite being closed and bounded, $E$ is not compact; we will demonstrate this by inductively constructing an open cover $P$ of $E$ that has no finite subcover, first constructing such a cover for $E_+ = (\sqrt{2}, \sqrt{3})$:
+
+\medskip
+Set $P_1 = (\sqrt{2}, \frac{\sqrt{3}}{2})$. To define $P_2$, we first select some arbitrary $q_2 \in \mathds{Q}$ such that $\frac{\sqrt{3}}{2}$ \textless $q_2$ \textless $\sqrt{3}$. Define $\delta_2 = \sqrt{3} - q_2$ (note that this makes $\delta_2$ irrational) and construct $P_2 = (\frac{\sqrt{3}}{2}, q_2 + \frac{\delta_2}{2})$. \\
+\indent All further $P_n$, $n$ \textgreater 2 are constructed by the following rule: select some $q_n \in \mathds{Q}$ such that $q_{n-1} + \frac{\delta_{n-1}}{2}$ \textless $q_n$ \textless $\sqrt{3}$, and define $\delta_n = \sqrt{3} - q_n$. Then define $P_n = (q_{n-1}+ \frac{\delta_{n-1}}{2}, q_n + \frac{\delta_n}{2})$. For instance, $P_3$ is constructed through selecting an arbitrary $q_3 \in \mathds{Q}$ such that $q_2 + \frac{\delta_2}{2}$ \textless $q_3$ \textless $\sqrt{3}$, and define $\delta_3 = \sqrt{3} - q_3$. Now we can construct $P_3 = (q_2 + \frac{\delta_2}{2}, q_3 + \frac{\delta_3}{2})$. We observe that this cover contains the following properties:
+
+\medskip
+\indent 1) The sets in $P$ draw arbitrarily close to $\sqrt{3}$ but never reaches it. Therefore, they are infinite in number.\\ 
+\indent 2) All terms that define the boundaries of the open sets in $P$ are irrational. This, combined with 1), ensures that $P$ covers $E_+$.\\
+\indent 3) $P_1$ is the only set in $P$ that contains the rationals in $(\sqrt{2}, \frac{\sqrt{3}}{2})$, and $P_n$, $n>1$ is the only set that contains the rational $q_n$. 
+
+\medskip
+\indent Thus, the removal of any element of the open cover $P$ would remove a unique rational in $E_+$, so $P$ has no finite subcover of $E_+$. To extend this to $E$, simply construct the new open cover $P^* = P \cup -P$, and the cover will retain the same properties to ensure that it has no finite subcover.
+
+\medskip
+From this, it follows that $\mathds{Q}$ is not a compact space.
+
+\end{document}

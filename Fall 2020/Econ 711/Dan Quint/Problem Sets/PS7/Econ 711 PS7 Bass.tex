@@ -1,0 +1,159 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+%\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+%\geometry{margin=1in}
+
+\title{Econ 711 Problem Set 7}
+\author{Sarah Bass \footnote{I have discussed this problem set with Emily Case, Michael Nattinger, Alex Von Hafften, and Danny Edgel.}}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage[final]{graphicx}
+
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\begin{document}
+\noindent
+
+\maketitle
+\section*{Question 1}
+\subsection*{Part A}
+If $u$ is linear, then there exist some $b,c \in \R$ such that $u(x) = bx +c$. So we can see the following:
+\begin{align*}
+	U(a) &= pu(w+2a) + (1-p)u(w-a) \\
+	&= p(b(w+2a) +c) + (1-p)(b(w-a) +c) \\
+	&= p(bw + 2ab +c) + (1-p)(bw-ab +c) \\
+	&= pbw + 2pab +pc + (1-p)bw - (1-p)ab + (1-p)c \\
+	&= bw + (2p - (1-p))ab + c \\
+	&= bw + (3p-1)ab +c
+\end{align*}
+In order to maximize utility, we solve for $\argmax_{0 \le a \le w} bw + (3p-1)ab +c = \argmax_{0 \le a \le w} (3p-1)ab$. Note that when $p < \frac{1}{3}$, this expression is maximized by minimizing $a$. However, when  $p > \frac{1}{3}$, this expression is maximized by maximizing $a$. Thus I will invest all of my wealth if $p > \frac{1}{3}$, and I will invest nothing if $p < \frac{1}{3}$.
+
+\subsection*{Part B}
+At $a=0$, we can see that:
+\begin{align*}
+	\frac{\partial U}{\partial a} &= 2p u'(w) - (1-p) u'(w)
+\end{align*}
+Since $u(a)$ is a strictly increasing function, $u'(w)$ is positive, and since $p > \frac{1}{3}$, we know that $2p > 1-p$. Thus $\frac{\partial U}{\partial a} >0$, so it's optimal to invest a strictly positive amount.
+
+\subsection*{Part C}
+Let $a, a' \in (0,w)$ and let $t \in (0,1)$. Since $u''(w) <0$:
+\begin{align*}
+	U(ta + (1-t)a') &= pu(w+2(ta + (1-t)a')) + (1-p)u(w-(ta + (1-t)a')) \\
+	&=  pu(tw + (1-t)w +2ta + (1-t)a') + (1-p)u(tw + (1-t)w-ta - (1-t)a') \\
+	&=  pu(t(w + 2a) +(1-t)(w + 2a')) + (1-p)u(t(w-a) + (1-t)(w-a')) \\
+	&>  p(tu(w + 2a) +(1-t)u(w + 2a')) + (1-p)(tu(w-a) + (1-t)u(w-a')) \\
+	&= U(a) + U(a')
+\end{align*}
+Thus U is concave.
+
+\subsection*{Part D}
+If $u'(0)$ is infinite, then at $a=w$, we can see that:
+\begin{align*}
+	\frac{\partial U}{\partial a} &= 2p u'(3w) - (1-p) u'(0) = - \infty
+\end{align*}
+So investing all of my wealth is not optimal. If $u'(0)$ is not infinite, then:
+\begin{align*}
+	\frac{\partial U}{\partial a} &= 2p u'(3w) - (1-p) u'(0) \ge 0\\
+	\Rightarrow  2p u'(3w) &= (1-p) u'(0) \\
+	\Rightarrow p(2 u'(3w) - u'(0)) &= u'(0) \\
+	\Rightarrow  \bar{p} &= \frac{u'(0) }{2 u'(3w) - u'(0)}
+\end{align*}
+So if $p \ge \bar{p}$, then it is optimal to invest all of my wealth.
+
+\subsection*{Part E}
+We can find our optimal level of a by solving:
+\begin{align*}
+	\argmax_{0\leq a\leq w}p (1-e^{-c(w+2a)}) +(1-p)(1-e^{-c(w-a)}) &= \argmax_{0\leq a\leq w}p-pe^{-cw}e^{-2ca} +(1-p)- (1-p)e^{-cw}e^{ca} \\
+	&=  \argmax_{0\leq a\leq w}-pe^{-cw}e^{-2ca}- (1-p)e^{-cw}e^{ca}  \\
+	&= \argmax_{0\leq a\leq w}e^{-cw}(-pe^{-2ca}- (1-p)e^{ca}) \\
+	&=  \argmax_{0\leq a\leq w}-cw +log(-pe^{-2ca}- (1-p)e^{ca}) \\
+	&=  \argmax_{0\leq a\leq w}log(-pe^{-2ca}- (1-p)e^{ca})
+\end{align*}
+Which does not depend on wealth.
+
+\subsection*{Part F}
+Let $A(x)$ be decreasing. Then,
+\begin{align*}
+	\frac{d}{dw}U'(a) &= 2pu''(w+2a) - (1-p)u''(w-a) \\
+	&= -2pu'(w+2a)A(w+2a) + (1-p)u'(w-a)A(w-a).
+\end{align*}
+At the optimum, $U'(x^{*}(w)) = 0 \Rightarrow 2pu'(w+2a) = (1-p)u'(w-a) $ so,
+\begin{align*}
+	\frac{d}{dw}U'(a)|_{a=a^{*}(w)} &=(1-p)u'(w+2a^{*})(-A(w+2a^{*}) + A(w-a^{*})).
+\end{align*}
+Since $u'(x)>0$ and $A$ is decreasing, we know that $(-A(w+2a^{*}) + A(w-a^{*}))>0$ so $\frac{d}{dw}U'(a)|_{a=a^{*}(w)}>0$. Since the marginal utility from $a$ is strictly increasing in $w$, $a^{*}$ is strictly increasing in $w$.
+
+\subsection*{Part G}
+We can find our optimal level of a by solving:
+\begin{align*}
+	\argmax_{0\leq t \leq 1} p \left( \frac{1}{1-\rho}(w(1+2t))^{1-\rho}\right) + (1-p)\left( \frac{1}{1-\rho}(w(1-t))^{1-\rho} 	\right)\\
+	= \argmax_{0\leq t \leq 1} \log p \left( \frac{1}{1-\rho}(w(1+2t)) ^{1-\rho}\right) + \log (1-p) \left( \frac{1}{1-\rho}(w(1-t)) ^{1-\rho} \right) \\
+	= \argmax_{0\leq t \leq 1} \log p + \log \frac{1}{1-\rho} + \log (w(1+2t)) ^{1-\rho} + \log (1-p) + \log \frac{1}{1-\rho}+ \log (w(1-t))  \\
+	= \argmax_{0\leq t \leq 1} \log p + \log \frac{1}{1-\rho} + (1-\rho) \log (w(1+2t))  + \log (1-p) + \log \frac{1}{1-\rho}+ (1-\rho) \log (w(1-t))  \\
+	= \argmax_{0\leq t \leq 1} (1-\rho) \log (1+2t)  + (1-\rho) \log (1-t)  \\
+\end{align*}
+So I will invest the same fraction of my wealth regardless of w.
+
+\subsection*{Part H}
+Let $R(x)$ be increasing. 
+\begin{align*}
+	U'(t) &= 2wpu'(w(1+2t)) - (1-p)wu'(w(1-t)) \\
+	\frac{\partial}{\partial w} (U'(t)) &= 2wp u''(w(1+2t)) (1+2t) + 2pu'(w(1+2t)) - (1-p)w u''(w(1-t))(1-t) - (1-p)u'(w(1-t)) \\ 
+\end{align*}
+At the optimum, $U'(t) = 0$. So 
+\begin{align*}
+	\frac{\partial}{\partial w} (U'(t)) &= 2wp u''(w(1+2t)) (1+2t) - (1-p)w u''(w(1-t))(1-t) \\ 
+	&= -2p u'(w(1+2t))R(w(1+2t))   + (1-p)u'(w(1-t))R(w(1-t))\\ 
+	\frac{\partial}{\partial w} (U'(t)) |_{t = t*} &= -2p u'(w(1+2t^*))R(w(1+2t^*))   + (1-p)u'(w(1-t^*))R(w(1-t^*))\\ 
+	&= -2p u'(w(1+2t^*))R(w(1+2t^*))   + 2p u'(w(1+2t^*))R(w(1-t^*))\\ 
+	&=2p u'(w(1+2t^*))(R(w(1-t^*))-R(w(1+2t^*)))
+\end{align*}
+Since R is increasing and $R(w(1+2t^*)) >R(w(1-t^*))$, $\frac{\partial}{\partial w} (U'(t)) |_{t = t*}$ is negative. Thus we will invest a smaller fraction of our wealth as $w$ increases.
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

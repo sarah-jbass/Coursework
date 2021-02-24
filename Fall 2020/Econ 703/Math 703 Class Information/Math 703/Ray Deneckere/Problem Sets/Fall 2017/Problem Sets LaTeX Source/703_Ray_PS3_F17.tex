@@ -1,0 +1,91 @@
+\documentclass[12pt,leqno]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\textheight 8.5in
+\topmargin -.5in
+
+
+\begin{document}
+
+\begin{center}
+\Large{Homework {\#}2 Answers}\\
+\large{Garrett Anstreicher}
+\end{center}
+
+\bigskip
+
+\noindent Problem 1:\\
+\indent Yes. An arbitrary point $x$ in an open set in $\mathds{R}^2$ is an interior point of the set, which implies the existence of an open ball around $x$ that lies entirely in the set. But this means that we can make arbitrarily smaller open balls than the one that satisfies the condition around $x$, which in turn implies the existence of other points in the set that lie arbitrarily close to the $x$. This means that any neighborhood around $x$ will contain other points in the set that are not $x$ itself, which in turn means that $x$ is a limit point of the set.\\
+\indent This does not hold for closed sets, however. Consider $E \subset \mathds{R}^2 = {(0, 0)}.$ Since $E$ is a singleton point it is closed, but any neighborhood around it does not intersect any other points in $E$, so it is not a limit point.
+
+\bigskip
+\noindent Problem 2:\\
+\indent $f$ and $g$ are continuous real functions, so we know that the function $h(x) = f(x) - g(x)$ is also continuous. Because $h$ is a continuous real function mapping a compact set, we know that 
+$$\sup(h(x)) \in h(x);$$
+$$\inf(h(x)) \in h(x).$$
+The inf of $h(x)$ is what we are interested in, because it provides a value indicating the closest that the two functions get to one another. Because we have $f(x)$ \textgreater $g(x) \forall x \in [0,1]$, we must have that $h(x)$ \textgreater $0 \forall x \in [0, 1]$. Therefore, $\inf(h(x))$ \textgreater 0, so we can define $\Delta = \inf(h(x))/2$, and this value will satisfy $f(x) \geq g(x) + \Delta \forall x \in[0,1].$
+
+\pagebreak
+\indent If $f$ and $g$ are only left differentiable, then consider the following counterexample:
+\begin{figure}[!h]
+\includegraphics[width=1.0\textwidth]{counterexample}
+\end{figure}
+We have $f(x) > g(x)$ for all $x \in [0, 1]$, but note that the two lines draw arbitrarily close to one another as they approach the discontinuity from the left. Thus, no $\Delta$ will satisfy the inequality for all values of $x$ as $x$ draws close enough to the point of discontinuity from the left.
+
+\bigskip
+\noindent Problem 3:\\
+\indent Suppose $\frac{f'(t)}{g'(t)} \rightarrow A$ as $t \rightarrow x$, and suppose $-\infty \leq A$ \textless $\infty.$ Then we can choose $q \in \mathds{R}$ such that $A$ \textless $q$ and $r$ such that $A$ \textless $r$ \textless $q$, and we can choose some $c \in (x, \infty)$ so that $x$ \textless $t$ \textless $c$ implies
+$$\frac{f'(t)}{g'(t)} \text{\textless} r.$$
+If we then choose $x$ \textless $t$ \textless $y$ \textless $c$, the generalized mean value theorem shows that there exists a point $z \in (t, y)$ such that
+$$\frac{f(t) - f(y)}{g(t) - g(y)} = \frac{f'(z)}{g'(z)} < r.$$
+As we let $t \rightarrow x$, we have
+$$\frac{f(y)}{g(y)} \leq r < q.$$
+In other words, we can set $q$ arbitrarily close to $A$ from the right and still produce a point $c$ such that $A<f(t)/g(t)<q$ if $x<t<c$. Note that we can take the same approach but reversed if we suppose $-\infty < A \leq \infty$, so we see that $f(t)/g(t)$ approaches $A$ as $t$ approaches $x$ from the right as well, thus completing the proof.
+
+
+\bigskip
+\noindent Problem 4:\\
+\indent A) Yes. Consider the function's continuity on $y$ when $x$ is held constant. Set the constant $A = x^2$ and $B = x^3$. Then 
+$$f(x, y) = \frac{B}{A + y^2},$$
+which is simply the continuous function $\frac{1}{y^2}$ with some adjustments to slopes and transpositions. Likewise, holding $y$ constant and setting $C = y^2$ leads to 
+$$f(x, y) = \frac{x^3}{x^2 + C},$$
+which is also continuous.
+
+\indent B) Yes. The only real potential problem point for a discontinuity is $(0, 0)$, so we evaluate the limit of $f$ as it approaches $(0, 0)$ as we approach the point from several directions. If we approach from $x=0$, then the limit is
+$$\lim_{y \rightarrow 0} \frac{0}{0 + y^2},$$
+which is of course zero. If we approach from $y = 0$, then we have:
+$$\lim_{x \rightarrow 0} \frac{x^3}{x^2 + 0} = \lim_{x \rightarrow 0} x = 0.$$
+Finally, if we approach the point from some line $y = mx$, we have
+$$\lim_{x \rightarrow 0}\frac{x^3}{x^2 + m^2x^2} =\lim_{x \rightarrow 0}\frac{x^3}{(m^2 + 1)x^2} = \lim_{x \rightarrow 0} \frac{x}{m^2 + 1} = 0.$$
+This covers our bases, so we know that $f$ is continuous at $(0, 0)$. 
+
+\indent C) I'm going to answer D) first, since knowing the partial derivatives of $f$ is very handy in computing directional derivative. I compute the partial derivatives using the quotient rule, arriving at:
+$$\frac{\partial f}{\partial x} = \frac{x^4 + 3^2y^2}{x^4 + 2x^2y^2 + y^4};$$
+$$\frac{\partial f}{\partial y} = \frac{-2x^3y}{x^4 + 2x^2y^2 + y^4}.$$
+To evaluate the directional derivative, I first make the unit vector in the direction of $(1, 1)$, which is simply $(1/\sqrt{2}, 1/\sqrt{2}),$ and evaluate
+$$D_v f(x)= \frac{\partial f}{\partial x} \frac{1}{\sqrt{2}} + \frac{\partial f}{\partial y} \frac{1}{\sqrt{2}} = \frac{x^4 + 3x^2y^2 -2x^3y}{(x^4 + 2x^2y^2 + y^4)\sqrt{2}}.$$
+
+\indent E) At $(0, 0)$, we evaluate the directional derivative in the direction of $v=(1, 1)$:
+$$\lim_{h \rightarrow 0} \frac{f((0, 0) + vh) - f(0, 0)}{h}.$$
+But we know that $f(0, 0) = 0$, so this reduces quickly
+$$\lim_{h \rightarrow 0} \frac{f(vh)}{h}=\lim_{h \rightarrow 0}\frac{1}{h}\frac{h^3 \frac{1}{\sqrt{2}^3}}{(h^2 + h^2)\frac{1}{2}}=\lim_{h \rightarrow 0}\frac{h^3}{\sqrt{2}h^3 2} = \frac{1}{2\sqrt{2}} = \frac{\sqrt{2}}{4}.$$
+Now we calculate the values of the partial derivatives at $(0, 0)$:
+$$\frac{\partial f}{\partial x} = \lim_{h \rightarrow 0}\frac{f((0, 0) + (h, 0)) - f(0, 0)}{h} = \lim_{h \rightarrow 0}\frac{h^3}{h(h^2 + 0)} = 1.$$
+$$\frac{\partial f}{\partial y} = \lim_{h \rightarrow 0}\frac{f((0, 0) + (0, h)) - f(0, 0)}{h} =\lim_{h \rightarrow 0} \frac{0}{h(0 + h^2)} = 0.$$ 
+Now we take the dot product of the partials of $f$ at $(0, 0)$ and the unit vector in the direction of $(1, 1)$ and test it against the value of the directional derivative we computed before to see whether the function is differentiable at $(0, 0)$:
+$$\Delta f_{(0, 0)} \cdot v = (1, 0) \cdot \left(\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right) = \frac{1}{\sqrt{2}} \neq \frac{\sqrt{2}}{4} = D_v f(0, 0).$$
+From this, we see the function is not differentiable at $(0, 0)$. 
+
+\bigskip
+\noindent Problem 5:\\
+\indent We first consider the case where $n=1$. We know that $D \subset \mathds{R}^1$ is compact, therefore it is bounded and, more importantly, contains its supremum. So, we have
+$$\sup(D) = \max(D) = x^* \in D.$$
+Because $f(x)$ is non-decreasing, we must have $f(x^*)$ to be the maximum of $f$ on $D$.
+
+Now suppose that we are operating in $\mathds{R}^2$. Consider the first quadrant circle defined by $x^2 + y^2 = 1$, $x \geq 0$, $y \geq 0$. Clearly this set is closed and bounded, but note that no two distinct points $(x_1, y_1), (x_2, y_2)$ will have the property $x_1 \geq x_2$ and $y_1 \geq y_2$. The entire set is non-decreasing, so we can define some arbitrary function equal to zero at all points except one on the line, where it attains a value of $\infty$. This function will satisfy non-decreasingness without having a well-defined maximum. Note that we can simply transplant a curve of this type to any other dimension of $\mathds{R}^n, n$ \textgreater 1, to obtain the same result.
+
+\end{document}

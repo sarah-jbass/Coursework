@@ -1,0 +1,119 @@
+\documentclass[12pt,leqno]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\textheight 8.5in
+\topmargin -.5in
+
+
+\begin{document}
+
+\begin{center}
+\Large{Homework {\#}1 Answers}\\
+\large{Garrett Anstreicher}
+\end{center}
+
+\bigskip
+\noindent {\bf Problem 1:}\\
+\indent 
+$$f'(0) =\lim_{h \rightarrow 0} \frac{f(0 + h) - f(0)}{h} = \lim_{h \rightarrow 0} \frac{h + 2h^2 \sin(1/h)}{h} = \lim_{h \rightarrow 0} 1 + h \sin(1/h) = 1.$$
+However, $f$ is not invertible at zero for reasons similar to those discussed in homework 4: any deviation from 0 will result in $f$ oscillating between approximately 0 and 1 an infinite number of times, which renders $f$ non-injective and therefore uninvertible. This does not violate the inverse function theorem because the function $f$ is not continuous and therefore is not a $\mathds{C}^1$ mapping.
+
+\bigskip
+\noindent {\bf Problem 2:}\\
+\indent A)The Jacobian of $f$ is
+$$Df = \begin{bmatrix}
+2x & -2y&\\
+2y & 2x
+\end{bmatrix}.$$
+$$\text{Det}(Df) = 4x^2 + 4y^2.$$
+We need the determinant of the Jacobian to not equal zero for the function to be invertible. Both terms in the determinant equation are clearly non-negative, so the points that satisfy invertibility are $\mathds{R}^2 \setminus (0, 0).$
+
+\indent B) We can consider the function $h$ defined by the following system of equations
+$$u - x^2 + y^2 = 0;$$
+$$v - 2xy = 0.$$
+We want an expression of $x$ and $y$ in terms of $u$ and $v$ that we can compute the derivative of; the implicit function theorem will allow this. The submatrix of the Jacobian of $h$ of $x$ and $y$ is
+$$D_{x,y}h = \begin{bmatrix}
+	-2x & 2y \\
+	-2y & -2x
+\end{bmatrix},$$
+The determinant of which is again $4x^2 + 4y^2$. The values we want for this problem will be contained in $-D_{x,y}h^{-1} D_{u, v}h$. But note that $D_{u, v}h$ is just a 2x2 identity matrix, so our partial derivatives are simply computed through the inverse formula for a 2x2 matrix:
+$$\begin{bmatrix}
+\frac{2x}{4x^2 + 4y^2} & \frac{2y}{4x^2 + 4y^2} \\
+\frac{-2y}{4x^2 + 4y^2} & \frac{2x}{4x^2 + 4y^2}
+\end{bmatrix}.$$ 
+
+
+\bigskip
+\noindent {\bf Problem 3:}\\
+\indent A) The Jacobian submatrix of $u$ and $v$ is 
+$$D_{u,v}f = \begin{bmatrix}
+	v & u \\
+	xy & 1
+\end{bmatrix}$$
+When $x = y = u = v = 0$, the determinant of this matrix is zero, so the implicit function theorem cannot prove the solvability of this system.
+
+\indent B) Some algebra produces the following expressions of $u$ and $v$ in terms of $x$ and $y$:
+$$u^2 = \frac{x + y}{xy};$$
+$$v^2 = xy(x+y).$$
+Which allows several classes of solutions. If either $x$ or $y=0$, then $u$ is undefined and can be arbitrary. If both are nonzero but $x+y = 0$, then $u=v=0$ is the unique solution. If both $x>0$ and $y>0$, then we have two solutions. Finally, we may have $x$ positive and $y$ negative (or vice-versa) such that $x+y<0$, $xy<0$, and such a combination will also yield two solutions.
+
+\bigskip
+\noindent {\bf Problem 4:}\\
+\indent Call this system of equations $f$. To show the first statement take the Jacobian submatrix of this system of equations of $x, y$ and $u$:
+$$D_{x,y,u}f = \begin{bmatrix}
+	3 & 1 & 2u \\
+	1 & -1 & 1 \\
+	2 & 2 & 2
+\end{bmatrix}.$$
+The determinant of this matrix is $8u-12$, so the system of equations is solvable when $u \neq 1.5$. A similar procedure reveals that we can solve $x, z, u$ is solvable in terms of $y$ and that $y, z, u$ is solvable in terms of $x$. However, take the Jacobian submatrix of $f$ of $x, y$ and $z$:
+$$D_{x,y,u}f = \begin{bmatrix}
+	3 & 1 & -1 \\
+	1 & -1 & 2 \\
+	2 & 2 & -3
+\end{bmatrix}.$$
+But this is a linear matrix and its determinant is equal to 0, which implies that the system of equations is not solvable. 
+
+
+\bigskip
+\noindent {\bf Problem 5:}\\
+\indent A) $e^x$ can yield any strictly positive real, and $\sin(y)$ can take both positive and negative values, as can $\cos(y)$. However, we cannot have $\sin(y) = \cos(y) = 0$, so the image is $\mathds{R}^2 \setminus (0, 0).$
+
+\indent B) 
+$$Df = \begin{bmatrix}
+	e^x \cos y & -e^x \sin y \\
+	e^x \sin y & e^x \cos y
+\end{bmatrix}.$$
+The determinant of this matrix is
+$$e^{2x} \cos^2y + e^{2x} \sin^2y = e^{2x}(\sin^2y + \cos^2y) = e^{2x} \neq 1.$$
+Because $f$ is $\mathds{C}^1$, we've satisfied all the requirements for the inverse function theorem to apply to every point in $\mathds{R}^2$, which guarantees a neighborhood of injectivity. However, $f$ as a whole is clearly not injective; for instance $f(1, 2\pi) = f(1, 4\pi)$. 
+
+\indent C)
+$$Df(a) = \begin{bmatrix}
+	\frac{-1}{3} & \frac{\sqrt{3}}{2} \\
+	\frac{\sqrt{3}}{2} & \frac{-1}{3}
+\end{bmatrix}$$
+$$\det(Df(a)) = 1/9 + 3/4 = \frac{31}{36}.$$
+To obtain the explicit function for $g$, consider $u, v$ such that 
+$$e^x \cos y = u,$$
+$$e^x \sin y = v.$$
+But we can rearrange for $y$:
+$$\frac{v}{u} = \frac{e^x \sin y}{e^x \cos y} = \frac{\sin y}{\cos y} = \tan y \Rightarrow y = \tan^{-1} \frac{v}{u},$$
+and for $x$:
+$$u^2 + v^2 = e^{2x} \sin^2 y + e^{2x} \cos^2 y = e^{2x}(\sin^2 y + \cos^2 y) = e^{2x} \Rightarrow x = \frac{\ln(u^2 + v^2)}{2}.$$ 
+So the explicit function of $g$ for some $(u, v) = f(x,y)$ is 
+$$g_1 (u, v) = \frac{\ln(u^2 + v^2)}{2};$$
+$$g_2 (u, v) = \tan^{-1} \frac{v}{u}.$$
+So the Jacobian of $g$ is
+$$Dg = \begin{bmatrix}
+	\frac{u}{u^2 + v^2} & \frac{v}{u^2 + v^2} \\
+	\frac{-v}{u^2 + v^2} & \frac{u}{u^2 + v^2}
+\end{bmatrix}.$$
+$$\det(Dg) = \frac{u^2 + v^2}{(u^2 + v^2)^2} = \frac{1}{u^2 + v^2}.$$
+We can now plug in our values for $b = f(0, \pi/3) = (-1/3, \sqrt{3}/2)$:
+$$Dg(b) = \frac{1}{1/9 + 3/4} = \frac{36}{31} = Df(a)^{-1}.$$
+
+\end{document}

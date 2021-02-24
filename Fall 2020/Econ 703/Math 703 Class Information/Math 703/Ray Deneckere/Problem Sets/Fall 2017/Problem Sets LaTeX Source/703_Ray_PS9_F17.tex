@@ -1,0 +1,86 @@
+\documentclass[12pt,leqno]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\textheight 8.5in
+\topmargin -.5in
+
+\newcommand{\lgrange}{\mathscr{L}}
+\newcommand{\td}{_{t+1}}
+\newcommand{\tu}{^{t+1}}
+\newcommand{\tmu}{^{t-1}}
+\newcommand{\sumni}{\sum^n_{i=1}}
+
+\begin{document}
+
+\begin{center}
+\Large{Problem Set 9}\\
+\large{Garrett Anstreicher}
+\end{center}
+
+\bigskip
+\noindent {\bf Problem 1:}\\
+\indent Define $C_1$ to be the upper contour set of $\alpha_1 f_1(x)$. If $\alpha_1>0$, it must be that this set is convex. But then the upper contour set of $f(x) = \alpha_1 f(x) + . . . + \alpha_n f_n(x)$ is simply $C_1 \cap . . . \cap C_n$, but because intersections of convex sets must be convex, then the upper contour set of $f(x)$ is convex, which implies that $f(x)$ is a convex function.
+
+This fails very quickly if we allow the $\alpha$ terms to be negative. Consider $f_1(x) = x$ and $f_2(x) = x^2$, two convex functions. Now consider $\alpha_1 = 0$ and $\alpha_2 = -1$, then $f(x) = -x^2$, which is of course strictly concave.
+
+\bigskip
+\noindent {\bf Problem 2:}\\
+\indent Let $f(x) = -x$ and $g(x) = -x^2$, both concave functions. Then $f(g(x)) = x^2$, which is strictly convex. If $f$ is increasing, then by the concavity of $g$ we have:
+$$g(\alpha x + (1-\alpha)y)\geq \alpha g(x) + (1-\alpha)g(y)$$
+$$f(g(\alpha x + (1-\alpha)y)) \geq f(\alpha g(x) + (1-\alpha)g(y)$$
+Define $h(x) = f(g(x))$. Then by the concavity of $f$ we have
+\begin{multline*}
+h(\alpha x + (1-\alpha)y) \geq f(\alpha g(x) + (1-\alpha)g(y)) \geq \alpha f(g(x)) + (1-\alpha)f(g(y)) \\
+= \alpha h(x) + (1-\alpha)h(y)
+\end{multline*}
+So $h(x) = f(g(x))$ is concave.
+
+\indent If $g$ is increasing and concave and $f$ is concave, we still have no guarantee of concavity. Take $f(x) = -x$ and $g = \sqrt{x}$, again both concave and $g$ increasing. Then $f(g(x)) = -\sqrt{x}$, which is strictly convex.
+
+\bigskip
+\noindent {\bf Problem 3:}\\
+\indent {\bf Sufficiency:}
+We proceed by the contrapositive. Assume that $f()$ is not concave. Then $\exists x^*, y^*$ and $\alpha^* \in [0, 1]$ such that 
+$$f((1-\alpha^*)x^* + \alpha^* y^*)<(1-\alpha^*)f(x^*) + \alpha^* f(y^*)$$
+Now consider $g$. For $g$ to be concave in $t$, it must be that $\forall t_1, t_2$ and $\forall \beta \in [0, 1]$, it must be that
+$$g((1-\beta)t_1 + \beta t_2)\geq (1-\beta)g(t_1) + \beta g(t_2)$$
+Now we'll find a counter example. Take $x^*$ and $y^*$ from before, set $\beta = \alpha^*$, and $t_1 = 0$ and $t_2 = 1$. Then
+\begin{multline*}
+g((1-\beta)t_1 + \beta t_2) = g(\beta) = g(\alpha^*) = f(x^* + \alpha^*(y^* - x^*)) \\
+= f((1-\alpha^*)x^* + \alpha^* y^*)<(1-\alpha^*)f(x^*) + \alpha^*f(y^*) = \\
+(1-\beta)g(t_1) + \beta g(t_2)
+\end{multline*}
+
+\indent {\bf Necessity:} Again proceed by the contrapositive. Assume that $g(t)$ is not concave in $t$. Then $\exists t_1, t_2$ and $\beta^* \in [0,1]$ such that
+$$g((1-\beta^*)t_1 + \beta^* t_2)<(1-\beta^*)g(t_1) + \beta^*g(t_2)$$.
+We'll now select a particular $x$ and $y$ such that $f$ is not concave in $x$ and $y$. Set $x = 0$ and $y = 1$. Then 
+\begin{multline*}
+g((1-\beta^*)t_1 + \beta^* t_2) = f(x + ((1-\beta^*)t_1 + \beta^* t_2)(y-x) = f((1-\beta^*)t_1 + \beta^* t_2)\\
+<(1-\beta^*)g(t_1) + (1-\beta^*)g(t_2) = (1-\beta^*)f(t_1) + \beta^*f(t_2)
+\end{multline*}
+So $f$ is not concave in all $x$ and $y$ and is thus not a concave function.
+
+
+\bigskip
+\noindent {\bf Problem 4:}\\
+\indent All that we need here is a consumption bundle that costs less than the endowment given to the agent, then $h(x) = w - \sumni x_i p_i >0$. This is almost always possible because we let zero consumption be an option. So, as long as wealth is strictly positive and prices aren't infinite, we should be fine.
+
+\bigskip
+\noindent {\bf Problem 5:}\\
+\indent Note that the first two constraints must bind with equality because the agent can always do strictly better by increasing $c_t$ or $x_t$ until equality is reached in the current period and that there is no future penalty for doing so. The latter two don't necessarily bind with equality, so we can set up the maximization problem:
+$$V=\sum^T_{t=1} u(c_t) + \lambda_1(x - c_1 - x_1) + \sum^T_{t=2}\lambda_t(f(x_{t-1}-x_t-c_t) + \sum^T_{t=1} \mu_t(c_t) + \delta_t(x_t)$$
+First derive FOC's for the $c$ terms:
+$$\frac{\partial V}{\partial c_t} = u'(c_t) - \lambda_t - \mu_t = 0$$
+For $\lambda$ terms:
+$$\frac{\partial V}{\partial \lambda_1} = x - c_1 - x_1 = 0$$
+$$\frac{\partial V}{\partial \lambda_t} = f(x_{t-1}) - x_t - c_t = 0$$
+And complementary slackness
+$$\mu_t c_t = 0 \;\; ; \;\; \delta_t x_t = 0.$$
+These will be sufficient if both $u(x)$ is concave and $f(x)$ is affine. We may also need the domain for our choices of $c$ and $x$ to be continuous and convex, but this is satisfied trivially if we say that the domains for each are just the reals/positive reals.
+
+\end{document}

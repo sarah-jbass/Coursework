@@ -1,0 +1,105 @@
+\documentclass[12pt,leqno]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\textheight 8.5in
+\topmargin -.5in
+
+
+\begin{document}
+
+\begin{center}
+\Large{Homework {\#}1 Answers}\\
+\large{Garrett Anstreicher}
+\end{center}
+
+\bigskip
+\noindent \bf{Problem 1:}\\
+\indent
+
+\bigskip
+\noindent Problem 2:\\
+\indent A) We first compute the partial derivatives of $f(x, y)$
+$$\frac{\partial f}{\partial x} = 6x^2 - 6x$$
+$$\frac{\partial f}{\partial y} = 6y^2 + 6y.$$
+This gives us the Hessian:
+$$H = \begin{bmatrix}
+12x-6 & 0 \\
+0 & 12y + 6
+\end{bmatrix}.$$
+Computing the combinations of $(x, y)$ that sets both partials equal to zero reveals the four critical points to be (0, 0), (1, 0), (0, -1) and (1, -1). We can now input these points into the Hessian to determine which of them are local minima and maxima. The determinant of $H$ is negative at (0, 0) and (1, -1), which means that these two points must be saddle points. At (1, 0), we have the first leading principle minor of $H$ $M_1 = 6$ and the second LPM $M_2 = \det(H) = 36$. So, $H$ is positive definite at (1, 0), which makes the point a local minimum. At (0, -1), we have $M_1 = -6$ and $M_2 = 36$. So, $H$ is negative definite at (0, -1), which makes the point a local maximum. These are the only two minima and maximum as there are no other critical points for $f$. 
+
+\indent B) The graph of $f(x,y) = 0$ appears as a negatively sloped straight line that bifurcates an oval that intersects the origin and extends into quadrants 1, 3 and 4. A plot of the function is included in the next page.
+\begin{figure}
+\includegraphics[width=1.0\textwidth]{hw_4_function}
+\end{figure}
+The function will not be able to be solved for $y$ in terms of $x$ or vice-versa when either $f_y$ or $f_x = 0$. As determined before, this will occur wherever we have $x = 0$, $x = 1$, $y = 0$, or $y = -1$. We can then put these values into the original equation one at a time to determine the points at which $f(x, y) = 0$ will not be able to be expressed implicitly: (0, 0), (0, -3/2), (1, -1), (1, 1/2), (3/2,0), and (-1/2,-1). 
+
+\bigskip
+\noindent Problem 3:\\
+\indent We know that the directional derivative of $f$ at a point $x$ in the direction of a unit vector $v$ can be expressed as
+$$D_u f(x) = \Delta f(x) \cdot v = f'_1(x)v_1 + f'_2(x)v_2 + . . . f'_n(x) v_n.$$
+Define $\alpha_n \in \mathds{R} = f'_n(x)$. Maximizing this directional derivative can then be expressed as a constrained optimization problem based on choosing the elements $v$ with the restriction that $v$ remain a unit vector, or
+$$\max_{v_1,...,v_n} \alpha_1v_1 + \alpha_2v_2 + . . . \alpha_n v_n \text{ subject to } \sqrt{v^2_1 + v^2_2 +  . . . v^2_n} = 1.$$
+Note that $\sqrt{v^2_1 + v^2_2 +  . . . v^2_n} = 1$ is the same as requiring that $v^2_1 + v^2_2 +  . . . v^2_n = 1.$ So we can set up the Lagrangian:
+$$\mathds{L} = \max_{v_1,...,v_n} \alpha_1v_1 + . . . \alpha_nv_n - \lambda(1 - v^2_1 . . . v^2_n)$$
+Take the Lagrangian for an arbitrary $v_i$:
+$$\frac{\partial \mathds{L}}{\partial v_i} =\alpha_i -2\lambda v_i = 0$$
+$$2\lambda = \frac{\alpha_i}{v_i}$$
+taking the Lagrangian over all $v$ leads us to the following rule:
+$$\frac{\alpha_1}{v_1} = \frac{\alpha_2}{v_2} = ... = \frac{\alpha_n}{v_n}.$$
+So, components of $v$ must be linearly and positively proportional with the coordinate of the gradiant at $x$ they are associated with. Note that they must also have the same sign (i.e. be going in the same direction) as the gradient, otherwise the value of the product of the vector elements with the gradient elements would be negative, thus obviously failing to maximize the objective function. In other words, the direction of greatest increase is simply the direction of the gradient.
+
+
+\bigskip
+\noindent Problem 4:\\
+\indent A) Assume we have two distinct $y, x \in \mathds{R}$ such that $f(y) = y$ and $f(x) = x$. Assume WLOG that $y>x$. Then by the mean value theorem we must have $t \in (x, y)$ such that
+$$f'(t) = \frac{f(y) - f(x)}{y-x} = \frac{y-x}{y-x} = 1,$$
+thus leading to a contradiction. 
+
+\indent B) Assume we have some $x$ for which
+$$x(1-e^x) - 1 = x$$
+$$x - xe^x - 1 = x$$
+$$xe^x = -1.$$
+This equivalency clearly cannot hold if $x$ is positive or if $x=0$, so we must have $x<0$. So, this equation can also be written as
+$$\frac{-x}{e^x} = -1$$
+for some $x>0$. But we know from the $n>2$-degree  Taylor expansion of $e^x$ that $e^x > x \forall x>0$, so this proportion must always be greater than -1. Therefore, the solution does not exist.
+
+\indent C) We want to show that $f$ is a contraction, or that for some value $0<c<1$ we have 
+$$D(f(x), f(y)<cD(x y).$$
+Choose $c$ equal to the constant that fulfills $|f'(x)|\leq c$ as stated in the problem. We know that 
+$$|x+h - x| = |h|$$
+and we can take a first-degree Taylor expansion of $f$ at $x+h$ to yield
+$$f(x+h) = f(x) + f'(z)h,$$
+where $z \in (x, x+h)$. But we know that $f'(z) \leq c$, so we have
+$$f(x+h) - f(h) \leq ch < h = d((x+h), x),$$
+which is adequate in showing that $f$ is a contraction. Because we know that $\mathds{R}$ with the standard distance metric is a complete metric space, the rest of this problem follows from the contraction mapping theorem proof discussed in class: If $x_n = f(x_{n-1})$ and $f$ is a contraction, then we have
+$$d(x_{n+1}, x_n)=d(f(x_n), f(x_{n-1}))<cd(x_n,x_{n-1}).$$ 
+By induction, it follows that 
+$$d(x_{n+1},x_n) \leq c^n (x_1,x_0).$$
+Now choose an arbitrary $n, m \in \mathds{N}$ and WLOG assume $n>m$. Then we have
+$$d(x_n,x_m) = \sum^m_{i = n+1} d(x_i,x_{i-1}) \leq (c^n + c^{n+1} + . . . c^{m-1})d(x_1,x_0).$$
+But because $c<1$ we can take its infinite geometric series to form a new inequality
+$$ (c^n + c^{n+1} + . . . c^{m-1})d(x_1,x_0) \leq \frac{c^n}{1-c}d(x_1,x_0).$$
+But this means that we can choose $n$ arbitrarily large to shrink the fraction $\frac{c^n}{1-c}$ to be smaller than any arbitrary pre-selected $\epsilon>0$. From this, it follows that $\{x_n\}$ is Cauchy and converges to some point $x^* \in \mathds{R}.$
+
+\indent D) This method essentially describes a typical approach to a dynamic programming problem that has no closed-form solution. We seek to find a fixed point that we cannot find analytically for some function $g$, so we start with a guess $x_0$ and observe how far $g(x_0)$ is from $x_0$ itself. We can then modify $x_0$ by a fraction of this distance to produce a new $x_1$ and evaluate this new candidate. Since new candidates are produced by modifying the immediately preceding ones, we can think of this method a function $f(x_n)=x_{n+1}$ which makes a series of points $(x_0, x_1)$, $(x_1, x_2)$, etc. This series must zig-zag eventually because as we get arbitrarily close to the fixed point, we eventually have some $f(x_n)$ that overshoots $x_n$ by some amount, and the resultant $x_{n+1}$ will have $f(x_{n+1})$ undershoot $x_{n+1}$ by a lesser amount, resulting in a zig-zagging pattern until we are within some preset error tolerance. 
+
+\bigskip
+\noindent Problem 5:\\
+\indent We first take the derivative of the function:
+$$f'(x) = 2x \sin(1/x) + x^2 \cos(1/x)\frac{-1}{x^2}$$
+$$f'(x) = 2x \sin(1/x) - \cos(1/x).$$
+At all $x \neq 0$, this function returns a valid result, as $\sin(x)$ and $\cos(x)$ are never undefined for $x \in \mathds{R}$. To prove that the derivative exists at $x=0$, we consider:
+$$\lim_{h \rightarrow 0} \frac{f(x+h) - f(x)}{h}.$$
+We can now sub in 0 for $x$. But since $f(0) = 0$, this gives us:
+$$\lim_{h \rightarrow 0} \frac{f(h)}{h} = \lim_{h \rightarrow 0} \frac{h^2 \sin(1/h)}{h}=\lim_{h \rightarrow 0} h \sin(1/h) = 0.$$
+
+\indent Proving that $f'$ is discontinuous at 0 follows quickly from the definition of continuity. Consider $\epsilon =.5$. We know that $f'(0) = 0$, but as $x$ approaches zero we have 
+$$\lim_{x \rightarrow 0} f'(x) = \lim_ {x\rightarrow 0} 2x \sin(1/x) - \cos(1/x) = -\cos(1/0).$$ 
+which is undefined. As $1/x$ grows arbitrarily quickly as $x$ is made arbitrarily small, any movement from 0 will lead $f'(x)$ to fluctuate between roughly -1 and 1 an infinite number of times. Thus, there does not exist any $\delta>0$ such that $|x-0|<\delta \Rightarrow |f'(x) - f'(0)| = |f'(x) - 0| < .5 = \epsilon$, so the function at zero fails the definition of continuity. 
+
+\end{document}
