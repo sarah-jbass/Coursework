@@ -1,0 +1,84 @@
+clear;
+clc;
+close all;
+
+cd 'C:\Users\19195\OneDrive\Documents\University of Wisconsin\First Year\Spring 2021\Econ 710\Mikkel Solvsten\Problem Sets\PS5'
+
+%Written by Sarah Bass, 2/23/21
+
+%Params
+rng(100); %seed
+alpha0 = 100;
+delta0 = 100;
+beta0 = 1;
+T = [50 150 250];
+rho1 = [0.7 0.9 0.95];
+betasN = zeros(4,3,3);
+CIl = zeros(4,3,3);
+CIu = zeros(4,3,3);
+scale = norminv(0.975); %width of CI, approx 1.96
+
+%Question 2A
+for i=1:3
+    for j=1:3
+        V = normrnd(0,1,T(i),1); 
+        U = normrnd(0,1,T(i),1);
+        Y = zeros(T(i)+1,1);
+        X = zeros(T(i)+1,1);
+        Y(1) = normrnd(0,1); 
+        X(1) = normrnd(0,1); 
+        for k=1:T(i)
+            X(k+1) = 0.3*X(k) + V(k);
+            Y(k+1) = alpha0 + k*beta0 + X(k+1)*delta0 + Y(k)*rho1(j) + U(k);
+        end
+        tX = [ones(T(i),1) (1:T(i))' X(2:end) Y(1:end-1)]; %regressors
+        betasN(:,i,j) = tX\Y(2:end); %solve system of eqns
+        r = Y(2:end) - tX*betasN(:,i,j);
+        Vhc0 = inv(tX' * tX) * (tX' * diag(r.^2) * tX) * inv(tX' * tX);
+        SE = sqrt(diag(Vhc0));
+        CIl(:,i,j) = betasN(:,i,j) - scale*SE;
+        CIr(:,i,j) = betasN(:,i,j) + scale*SE;
+    end
+end
+
+%Question 2B
+nsim = 10000;
+betasN = zeros(4,3,3,nsim);
+coverN = zeros(4,3,3,nsim);
+for n = 1:nsim
+    for i = 1:3
+        for j = 1:3
+            V = normrnd(0,1,T(i),1); 
+        U = normrnd(0,1,T(i),1);
+        Y = zeros(T(i)+1,1);
+        X = zeros(T(i)+1,1);
+        Y(1) = normrnd(0,1); 
+        X(1) = normrnd(0,1); 
+        for k=1:T(i)
+            X(k+1) = 0.3*X(k) + V(k);
+            Y(k+1) = alpha0 + k*beta0 + X(k+1)*delta0 + Y(k)*rho1(j) + U(k);
+        end
+        tX = [ones(T(i),1) (1:T(i))' X(2:end) Y(1:end-1)]; %regressors
+        betasN(:,i,j,n) = tX\Y(2:end); %solve system of eqns
+        r = Y(2:end) - tX*betasN(:,i,j,n);
+        Vhc0 = inv(tX' * tX) * (tX' * diag(r.^2) * tX) * inv(tX' * tX);
+        SE = sqrt(diag(Vhc0));
+        Cl(:,i,j) = betasN(:,i,j,n) - scale*SE;
+        Cr(:,i,j) = betasN(:,i,j,n) + scale*SE;
+        if alpha0>Cl(1) && alpha0<Cr(1)
+            coverN(1,i,j,n) = 1;
+        end
+        if beta0>Cl(2) && alpha0<Cr(2)
+            coverN(2,i,j,n) = 1;
+        end
+        if delta0>Cl(3) && delta0<Cr(3)
+            coverN(3,i,j,n) = 1;
+        end
+        if rho1>Cl(4) && rho1<Cr(4)
+            coverN(4,i,j,n) = 1;
+        end
+
+
+        
+        
+        
