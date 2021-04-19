@@ -43,10 +43,8 @@ gen y_avg = n_married / n_obs
 predict y_pred
 
 twoway line y_pred age || scatter y_avg age, msize(tiny) mcol(black) 	///
-	xlab(20(10)80) ylab(0(.2)1, angle(horizontal) grid nogextend) xtitle("Age") 	///
-	plotregion(margin(tiny) lcolor(none)) ytitle("")						///
+	xlab(20(10)80) ylab(0(.2)1, angle(horizontal)) xtitle("Age")  ytitle("")	///
 	title("Probability of Being Married: Women with College Degrees")		///
-	leg(lab(1 "Fitted values") lab(2 "Empirical proportion") 	///
-			region(lstyle(none)))
+	leg(lab(1 "Fitted values") lab(2 "Empirical proportion"))
 			
 graph export q25_17.png, replace
