@@ -28,32 +28,20 @@ drop if education < 16 | female!=1
 gen y = (marital == 1 | marital == 2 | marital == 3)
 
 *Splines every 5
-gen age25 = (age >= 25)*(age - 25)
-gen age30 = (age >= 30)*(age - 30)
-gen age35 = (age >= 35)*(age - 35)
-gen age40 = (age >= 40)*(age - 40)
-gen age45 = (age >= 45)*(age - 45)
-gen age50 = (age >= 50)*(age - 50)
-gen age55 = (age >= 55)*(age - 55)
-gen age60 = (age >= 60)*(age - 60)
+foreach x in 25 30 35 40 45 50 55 60 {
+	gen age`x' = (age >= `x')*(age - `x')
+}
 
 probit y age age25 age30 age35 age40 age45 age50 age55 age60
 
-collapse (count) n_obs = female (sum) n_married = y, by(age)
+collapse (max) age25 age30 age35 age40 age45 age50 age55 age60 (count) n_obs = female (sum) n_married = y, by(age)
 
-gen y_avg = n_married / n_obs // percent of eage age married
+*Actual percent of each age married
+gen y_avg = n_married / n_obs
 
-*Splines every 5
-gen age25 = (age >= 25)*(age - 25)
-gen age30 = (age >= 30)*(age - 30)
-gen age35 = (age >= 35)*(age - 35)
-gen age40 = (age >= 40)*(age - 40)
-gen age45 = (age >= 45)*(age - 45)
-gen age50 = (age >= 50)*(age - 50)
-gen age55 = (age >= 55)*(age - 55)
-gen age60 = (age >= 60)*(age - 60)
-
+*Estimated percent of each age married
 predict y_pred
+
 twoway line y_pred age || scatter y_avg age, msize(tiny) mcol(black) 	///
 	xlab(20(10)80) ylab(0(.2)1, angle(horizontal) grid nogextend) xtitle("Age") 	///
 	plotregion(margin(tiny) lcolor(none)) ytitle("")						///
