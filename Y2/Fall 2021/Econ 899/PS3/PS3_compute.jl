@@ -2,10 +2,11 @@ using Parameters, Plots, CSV, Tables, DataFrames
 include("PS3_functions.jl") #import the functions that solve our growth model
 
 prim, res = Initialize() #initialize primitive and results structs
-Solve_HH_Problem(prim, res)
-Solve_μ(prim, res)
-# @elapsed Solve_model(prim, res) #solve the model! @elapsed will time the functions, @time name_of_file.jl also works
-@unpack value_function, policy_function, labor_supply, μ = res  #separates the value and policy functions out of the results
+# Solve_HH_Problem(prim, res)
+# Solve_μ(prim, res)
+# sum(res.μ)
+@elapsed Solve_model(prim, res)
+@unpack value_function, policy_function, labor_supply, μ = res  
 @unpack a_grid = prim
 
 ##############Make plots

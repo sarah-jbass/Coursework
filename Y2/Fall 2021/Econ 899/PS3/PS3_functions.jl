@@ -59,7 +59,7 @@ function Initialize()
     policy_function = zeros(prim.N, prim.na, prim.nz)
     policy_function_i = zeros(prim.N, prim.na, prim.nz)
     labor_supply = zeros(prim.Jᴿ-1, prim.na, prim.nz) #45x1000x2
-    μ = ones(prim.N, prim.na, prim.nz) / sum(ones(prim.N, prim.na, prim.nz))
+    μ = ones(prim.N, prim.na, prim.nz) ./ sum(ones(prim.N, prim.na, prim.nz))
 
     # Initial values based on representative agent model
     k = 0.0
@@ -168,42 +168,84 @@ function Solve_HH_Problem(prim::Primitives, res::Results)
     Working_Bellman(prim, res)
 end
 
-function Solve_μ(prim::Primitives, res::Results)
-    @unpack N, n, na, nz, Π, Π₀ = prim
-    tol = 1e-5
-    init_μ = res.μ
-    converged = 0
+# function Solve_μ(prim::Primitives, res::Results)
+#     @unpack N, n, na, nz, Π, Π₀ = prim
+#     tol = 1e-5
+#     init_μ = res.μ
+#     converged = 0
+#
+#     res.μ = zeros(N, na, nz) #set PMF=0
+#     res.μ[1, 1, :] = Π₀
+#
+#     if converged == 0
+#         for j = 1:(N-1)
+#             for ia = 1:na
+#                 for z = 1:nz
+#                     iap = res.policy_function_i[j,ia,z]
+#                     for zp = 1:nz
+#                         res.μ[j+1,iap,zp] = res.μ[j+1,iap,zp] + Π[z,zp]*init_μ[j,ia,z]
+#                     end
+#                 end
+#             end
+#         end
+#
+#         age_weights = ones(N)
+#
+#         for  i = 1:(N-1)
+#             age_weights[i+1] = age_weights[i]/(1+n)
+#         end
+#
+#         age_weight = reshape(repeat(age_weights/sum(age_weights), na * nz), N, na, nz)
+#         res.μ = age_weight .* res.μ
+#
+#         μ_diff = maximum(abs.(res.μ .- init_μ))
+#         if μ_diff<tol
+#             converged=1
+#         else
+#             init_μ = res.μ
+#         end
+#     end
+# end
 
-    if converged == 0
-        res.μ = zeros(N, na, nz) #set PMF=0
-        res.μ[1, 1, :] = Π₀
-        for j = 1:(N-1)
-            for ia = 1:na
-                for z = 1:nz
-                iap = res.policy_function_i[j,ia,z]
-                    for zp = 1:nz
-                        res.μ[j+1,iap,zp] = res.μ[j+1,iap,zp] + Π[z,zp]*init_μ[j,ia,z]
-                    end
+function Solve_μ(prim::Primitives, res::Results; progress::Bool = false)
+    @unpack a_grid, N, n, nz, Π₀, Π, na = Primitives()
+
+    # sets distribution to zero.
+    res.μ = zeros(N, na, nz)
+
+    # Fills in model-age 1 with erodgic distribution of producitivities.
+    res.μ[1, 1, :] = Π₀
+
+    for j = 1:(N-1) # Iterates through model-ages
+        if progress
+            println(j)
+        end
+        for i_a in 1:na # Iterates through asset levels
+            for i_z = 1:nz
+                if res.μ[j, i_a, i_z] == 0 # skips if no mass at j, i_a, i_z
+                    continue
+                end
+                # finds index of assets tomorrow
+                i_a_p = argmax(a_grid .== res.policy_function[j, i_a, i_z])
+                for i_z_p = 1:nz # iterates over productivity levels tomorrow
+                    res.μ[j+1, i_a_p, i_z_p] += Π[i_z, i_z_p] * res.μ[j, i_a, i_z]
                 end
             end
         end
     end
 
-    age_weights = ones(N)
+    # sum(res.μ) should equal N at this point (i.e. 1 for each row)
+    # Now adjusts for population growth, so that sum(res.μ) = 1
 
-    for  i = 1:(N-1)
-        age_weights[i+1] = age_weights[i]/(1+n)
+    age_weights_temp = ones(N)
+
+    for i = 1:(N-1)
+        age_weights_temp[i + 1] = age_weights_temp[i]/(1+n)
     end
 
-    age_weight = reshape(repeat(age_weights/sum(age_weights), na * nz), N, na, nz)
+    age_weight = reshape(repeat(age_weights_temp/sum(age_weights_temp), na * nz), N, na, nz)
+
     res.μ = age_weight .* res.μ
-
-    μ_diff = maximum(abs.(res.μ .- init_μ))
-    if μ_diff<tol
-        converged=1
-    else
-        init_μ = res.μ
-    end
 end
 
 function Update_prices(prim::Primitives, res::Results, k::Float64, l::Float64)
@@ -225,7 +267,7 @@ function Calculate_capital_supply(prim::Primitives, res::Results)
     sum(res.μ .* a_grid_3d)
 end
 
-function Solve_model(prim::Primitives, res::Results, λ::Float64 = 0.25)
+function Solve_model(prim::Primitives, res::Results; θ::Float64 = 0.11, z::Array{Float64, 1} = [3.0, 0.5], γ::Float64 = 0.42, λ::Float64 = 0.5)
     # @unpack γ = prim
     # @unpack θ = res
 
