@@ -26,10 +26,6 @@ rename _all, lower
     reg taken_new `covariates'
     outreg2 using q2_table, tex(frag) replace
 
-    foreach x in _cons `covariates' {
-        local b_`x' = _b[`x'] // Saving the coefficients as locals for question 4
-    }
-
 *Question 3 - Linear Probability Model with Robust SE
     reg taken_new `covariates', robust
     outreg2 using q3_table, tex(frag) replace
