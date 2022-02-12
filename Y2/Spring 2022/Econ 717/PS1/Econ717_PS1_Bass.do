@@ -30,7 +30,7 @@ rename _all, lower
     reg taken_new `covariates', robust
     outreg2 using q3_table, tex(frag) replace
 
-*Question 4
+*Question 4 - Y-hat
     reg taken_new `covariates'
 
     predict taken_new_hat_lpm
@@ -78,7 +78,7 @@ rename _all, lower
     probit taken_new `covariates' 
     margins, dydx(client_age) atmeans 
 
-*Question 8 - LPM with age quartic
+*Question 8 - LPM with age polynomial
     forvalues i = 2/4 {
         gen client_age_`i' = client_age^`i' // Generating higher order terms
     }
@@ -117,7 +117,7 @@ rename _all, lower
     *Calculate correct rate
     gen correct_rate = `num_right'/`num_wrong'
 
-*Question 11
+*Question 11 - Calculate out of sample impact
     probit taken_new `covariates' if imidlineid<1400
     outreg2 using q11_table, tex(frag) replace
 
@@ -161,7 +161,7 @@ rename _all, lower
 *Question 14 - Standard deviation
     *No code for this question, see table
 
-*question 15 - Heteroskedasticity test
+*Question 15 - Heteroskedasticity test
     reg taken_new `covariates'
 
     *Find residuals
