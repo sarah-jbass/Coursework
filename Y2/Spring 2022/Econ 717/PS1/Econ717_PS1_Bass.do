@@ -27,8 +27,11 @@ rename _all, lower
     outreg2 using q2_table, tex(frag) replace
 
 *Question 3 - Linear Probability Model with Robust SE
+    reg taken_new `covariates'
+    outreg2 using q3_table, tex(frag) replace addtext(Robust S.E., No)
+
     reg taken_new `covariates', robust
-    outreg2 using q3_table, tex(frag) replace
+    outreg2 using q3_table, tex(frag) append addtext(Robust S.E., Yes)
 
 *Question 4 - Y-hat
     reg taken_new `covariates'
@@ -41,8 +44,11 @@ rename _all, lower
     *outreg2 using q5_table, tex(frag) replace
 
 *Question 6 - Probit and Logit
+    reg taken_new `covariates'
+    outreg2 using q6_table, tex(frag) replace addtext(Model, LPM)
+
     probit taken_new `covariates'
-    outreg2 using q6_table, tex(frag) replace addtext(Model, Probit)
+    outreg2 using q6_table, tex(frag) append addtext(Model, Probit)
 
     logit taken_new `covariates'
     outreg2 using q6_table, tex(frag) append addtext(Model, Logit)
@@ -64,38 +70,42 @@ rename _all, lower
 *C
     predict taken_new_hat_probit
 
-    *Change client age by epsilon and recalculate
-    gen client_age_eps = client_age + 0.0001
-    probit taken_new client_age_eps client_married client_education hh_size hh_income muslim hindu_sc_kat treated
-    predict taken_new_hat_probit_eps
+    *Estimating impact of tiny change in age
+    gen taken_new_hat_probit_epsilon = normal(taken_new_hat_xb + 0.001*e(b)[1,1])
+    gen client_age_partial_eps = (taken_new_hat_probit_epsilon - taken_new_hat_probit) / 0.001
 
-    *Solve for difference
-    gen client_age_partial_eps = taken_new_hat_probit_eps - taken_new_hat_probit
-
-    summ client_age_partial_eps
+    summarize client_age_partial_eps
 
 *D
     probit taken_new `covariates' 
     margins, dydx(client_age) atmeans 
 
 *Question 8 - LPM with age polynomial
+    reg taken_new `covariates'
+    outreg2 using q8_table, tex(frag) replace
+
     forvalues i = 2/4 {
         gen client_age_`i' = client_age^`i' // Generating higher order terms
     }
 
     reg taken_new `covariates' client_age_2 client_age_3 client_age_4 
-    outreg2 using q8_table, tex(frag) replace
+    outreg2 using q8_table, tex(frag) append
 
     predict taken_new_hat_lpmq
 
-    *Change client age by epsilon and recalculate
-    reg taken_new client_age_eps client_married client_education hh_size hh_income muslim hindu_sc_kat treated client_age_2 client_age_3 client_age_4 
+    *Generate age + epsilon
+    gen client_age_eps = client_age + 0.0001
+    forvalues i = 2/4 {
+        gen client_age_eps_`i' = client_age_eps^`i' // Generating higher order terms
+    }
+
+    reg taken_new client_age_eps client_married client_education hh_size hh_income muslim hindu_sc_kat treated client_age_eps_2 client_age_eps_3 client_age_4 
     predict taken_new_hat_lpmq_eps
 
     *Solve for difference
     gen client_age_partial_eps2 = taken_new_hat_lpmq_eps - taken_new_hat_lpmq
 
-    summ client_age_partial_eps2 
+    summ client_age_partial_eps2  
 
 *Question 9 - Calculate LRI
     probit taken_new `covariates'
@@ -103,45 +113,44 @@ rename _all, lower
     gen LRI = 1 - (e(ll)/e(ll_0))
 
 *Question 10 - Calculate correct prediction rate
-    * = 1 if p>0.5, = 0 if p<0.5
+    *With cutoff = 0.5
     gen p_over_50 = (taken_new_hat_probit >=0.5) if taken_new_hat_probit  !=.
+    tab taken_new p_over_50
+    tab taken_new p_over_50, nofreq cell
 
-    *Number of correct predictions
-    count if (p_over_50 == 1 & taken_new == 1) | (p_over_50 == 0 & taken_new == 0)
-    local num_right = r(N)
-
-    *Number of incorrect predictions
-    count if (p_over_50 == 0 & taken_new == 1) | (p_over_50 == 1 & taken_new == 0)
-    local num_wrong = r(N)   
-
-    *Calculate correct rate
-    gen correct_rate = `num_right'/`num_wrong'
+    *With cutoff = 0.1673
+    gen p_over_16 = (taken_new_hat_probit >=0.1673) if taken_new_hat_probit  !=.
+    tab taken_new p_over_16
+    tab taken_new p_over_16, nofreq cell   
+    
 
 *Question 11 - Calculate out of sample impact
+    probit taken_new `covariates'
+    outreg2 using q11_table, tex(frag) replace addtext(Full Sample, Yes)
+
     probit taken_new `covariates' if imidlineid<1400
-    outreg2 using q11_table, tex(frag) replace
+    outreg2 using q11_table, tex(frag) append addtext(Full Sample, Out of Sample)
 
     predict taken_new_hat_outsample
 
-    * = 1 if p>0.5, = 0 if p<0.5
-    gen p_over_50_outsample = (taken_new_hat_outsample >=0.5) if taken_new_hat_outsample  !=.
+    *With cutoff = 0.5
+    gen p2_over_50 = (taken_new_hat_outsample >=0.5) if taken_new_hat_outsample  !=.
+    tab taken_new p2_over_50 if imidlineid < 1400
+    tab taken_new p2_over_50 if imidlineid < 1400, nofreq cell
 
-    *Number of correct predictions
-    count if (p_over_50_outsample == 1 & taken_new == 1) | (p_over_50_outsample == 0 & taken_new == 0)
-    local num_right_outsample = r(N)
+    *With cutoff = 0.1673
+    gen p2_over_16 = (taken_new_hat_outsample >=0.1673) if taken_new_hat_outsample  !=.
+    tab taken_new p2_over_16 if imidlineid < 1400
+    tab taken_new p2_over_16 if imidlineid < 1400, nofreq cell   
 
-    *Number of incorrect predictions
-    count if (p_over_50_outsample == 0 & taken_new == 1) | (p_over_50_outsample == 1 & taken_new == 0)
-    local num_wrong_outsample = r(N)   
-
-    *Calculate correct rate
-    gen correct_rate_outsample = `num_right_outsample'/`num_wrong_outsample'
 
 *Question 12 - Probit with married*Muslim interaction
+    probit taken_new `covariates'
+    outreg2 using q12_table, tex(frag) replace addtext(Interaction, No)
     gen married_muslim = client_married * muslim
 
     probit taken_new `covariates' married_muslim
-    outreg2 using q12_table, tex(frag) replace
+    outreg2 using q12_table, tex(frag) append addtext(Interaction, Yes)
 
 *Question 13 - Mean finite differences 
     margins, dydx(married_muslim)
@@ -159,7 +168,7 @@ rename _all, lower
     summ finite_difference
 
 *Question 14 - Standard deviation
-    *No code for this question, see table
+    *No code for this question, see margins table from 13
 
 *Question 15 - Heteroskedasticity test
     reg taken_new `covariates'
@@ -173,7 +182,8 @@ rename _all, lower
     outreg2 using q15_table, tex(frag) replace
 
 *Question 16 - Het prob
-hetprob taken_new `covariates', het(client_age client_education)
+    hetprob taken_new `covariates', het(client_age client_education) 
+    outreg2 using q16_table, tex(frag) replace
 
 log close 
 
