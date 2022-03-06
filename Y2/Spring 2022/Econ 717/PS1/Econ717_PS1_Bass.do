@@ -54,7 +54,6 @@ rename _all, lower
     outreg2 using q6_table, tex(frag) append addtext(Model, Logit)
 
 *Question 7 - Marginal effects
-
 *A
     dprobit taken_new `covariates'
     outreg2 using q7_table, tex(frag) replace
