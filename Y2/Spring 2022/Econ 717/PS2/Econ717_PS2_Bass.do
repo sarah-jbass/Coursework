@@ -13,7 +13,7 @@ pause on
 *ssc install outreg2
 
 cd "C:\Users\19195\OneDrive\Documents\University of Wisconsin\Coursework\Y2\Spring 2022\Econ 717\PS2"
-*log using "Econ717_PS2_Bass.log", replace
+log using "Econ717_PS2_Bass.log", replace
 
 use "Economics 717 Spring 2022 NSW Data.dta"
 rename _all, lower
@@ -26,7 +26,7 @@ rename _all, lower
 
     *Regression of earnings using the original treatment definition
     reg re78 treated age age2 educ black hisp married nodegree re74 re75
-    outreg2 using q1_table, tex(frag) replace
+        outreg2 using q1_table, tex(frag) replace
 
 *Question 2
     drop if treated == 1 & sample==1 
@@ -36,13 +36,15 @@ rename _all, lower
 
     *Coarse propensity scores
     probit treated2 age age2 educ black hisp married nodegree 
-    outreg2 using q3_table, tex(frag) replace
     predict pscorea
+        outreg2 using q3_table, tex(frag) replace
+    
 
     *Rich propensity scores
     probit treated2 age age2 educ black hisp married nodegree re74 re75
-    outreg2 using q3_table, tex(frag) append
     predict pscoreb
+        outreg2 using q3_table, tex(frag) append
+    
 
 *Question 4
     *Look at distributions of each propensity scores
@@ -52,37 +54,57 @@ rename _all, lower
 *Question 5
     *Histogram for coarse scores
     egen binsa=cut(pscorea), at(0(.05)1) icodes 
-    graph bar (count) pscorea if binsa>0, over(treated2) over(binsa, label(nolab)) asyvars
-    graph export q4_scorea.png, replace
+    graph bar (count) pscorea if binsa>0, over(treated2) over(binsa, label(nolab)) asyvars title("Coarse Propensity Scores")
+        graph export q4_scorea.png, replace
 
     *Histogram for rich scores
     egen binsb=cut(pscoreb), at(0(.05)1) icodes 
-    graph bar (count) pscoreb if binsb>0, over(treated2) over(binsb, label(nolab)) asyvars
-    graph export q4_scoreb.png, replace
+    graph bar (count) pscoreb if binsb>0, over(treated2) over(binsb, label(nolab)) asyvars title("Rich Propensity Scores")
+        graph export q4_scoreb.png, replace
 
 *Question 6
+    global table_number=6 // all of this global stuff is just to make tables
+
     *Nearest neighbor w/o replacement, w/ common support
+    est clear
     eststo: psmatch2 treated2, noreplacement outcome(re78) pscore(pscorea) neighbor(1) common 
         count if _support==0 // How many are not on common support? 
-        scalar diff_att = r(att)
-        scalar se_att = r(seatt)
+        global att_coarse = r(att)
+        global att_coarse_se = r(seatt)
+
+    esttab, se
+        global unm_coef = r(coefs)[1, 1]
+        global unm_se = r(coefs)[1, 2]
 
     *"Rich" matching estimates w/o replacement, w/ common support
-    eststo: psmatch2 treated2, noreplacement outcome(re78) pscore(pscoreb) neighbor(1) common 
+    psmatch2 treated2, noreplacement outcome(re78) pscore(pscoreb) neighbor(1) common 
         count if _support==0 // How many are not on common support w/ the rich scores?
-
-    ********************
-    *ADD TABLE FOR THIS
-    ********************
+        global att_fine = r(att)
+        global att_fine_se = r(seatt)
+   
+   texdoc do table_maker
 
 *Question 7
+    global table_number=7
+
     *Nearest neighbor w/ replacement, w/ common support
-    psmatch2 treated2, outcome(re78) pscore(pscorea) neighbor(1) common 
-    count if _support==0 // How many are not on common support? 
+    est clear
+    eststo: psmatch2 treated2, outcome(re78) pscore(pscorea) neighbor(1) common 
+        count if _support==0 // How many are not on common support? 
+        global att_coarse = r(att)
+        global att_coarse_se = r(seatt)
+    
+    esttab, se
+        global unm_coef = r(coefs)[1, 1]
+        global unm_se = r(coefs)[1, 2]
 
     *"Rich" matching estimates w/ replacement, w/ common support
     psmatch2 treated2, outcome(re78) pscore(pscoreb) neighbor(1) common 
-    count if _support==0 // How many are not on common support w/ the rich scores?
+        count if _support==0 // How many are not on common support w/ the rich scores?
+        global att_fine = r(att)
+        global att_fine_se = r(seatt)
+   
+   texdoc do table_maker
 
 *Question 8
     *Raw data standard difference 
@@ -95,20 +117,43 @@ rename _all, lower
     psmatch2 treated2, outcome(re75) pscore(pscoreb) neighbor(1) common 
 
 *Question 9
-    /* psmatch2 treated2, kernel kerneltype(normal) outcome(re78) pscore(pscoreb) bwidth(0.02) common 
+    global table_maker = 10
+
+    psmatch2 treated2, kernel kerneltype(normal) outcome(re78) pscore(pscoreb) bwidth(0.02) common 
+        global att_low = r(att)
+        global att_low_se = r(seatt)
+
     psmatch2 treated2, kernel kerneltype(normal) outcome(re78) pscore(pscoreb) bwidth(0.2) common 
-    psmatch2 treated2, kernel kerneltype(normal) outcome(re78) pscore(pscoreb) bwidth(2) common  */
+        global att_low = r(att)
+        global att_low_se = r(seatt)
+
+    psmatch2 treated2, kernel kerneltype(normal) outcome(re78) pscore(pscoreb) bwidth(2) common  
+        global att_low = r(att)
+        global att_low_se = r(seatt)
+
+    texdoc do table_maker_2
 
 *Question 10
-    /* psmatch2 treated2, llr outcome(re78) pscore(pscoreb) bwidth(0.02) common 
-    psmatch2 treated2, llr outcome(re78) pscore(pscoreb) bwidth(0.2) common 
-    psmatch2 treated2, llr outcome(re78) pscore(pscoreb) bwidth(2) common  */
+    global table_maker = 10
 
+    psmatch2 treated2, llr outcome(re78) pscore(pscoreb) bwidth(0.02) common 
+        global att_low = r(att)
+        global att_low_se = r(seatt)
+
+    psmatch2 treated2, llr outcome(re78) pscore(pscoreb) bwidth(0.2) common 
+        global att_low = r(att)
+        global att_low_se = r(seatt)
+
+    psmatch2 treated2, llr outcome(re78) pscore(pscoreb) bwidth(2) common 
+        global att_low = r(att)
+        global att_low_se = r(seatt)
+
+    texdoc do table_maker_2
 *Question 11
     *Reg controlling for whether in treatment group
     reg re78 treated2 age age2 educ black hisp married nodegree re74 re75
-    outreg2 using q11_table, tex(frag) replace
-    outreg2 using q12_table, tex(frag) replace
+        outreg2 using q11_table, tex(frag) replace
+        outreg2 using q12_table, tex(frag) replace
 
     *Predicted y-hat w/ control for treatment group
     predict re78hat
@@ -116,13 +161,13 @@ rename _all, lower
 *Question 12
     *Reg only using comparison sample
     reg re78 age age2 educ black hisp married nodegree re74 re75 if treated2==0
-    outreg2 using q12_table, tex(frag) append
+        outreg2 using q12_table, tex(frag) append
 
     *Predicted y-hat using only comparison sample
     predict re78hat_oos
 
     *Look at differences in y-hat for treated2==1
-    bysort treated2: summarize re78hat re78hat_oos 
+    bysort treated2: summarize re78hat re78hat_oos
 
 *Question 13
     *Generating n0 n1
@@ -134,9 +179,28 @@ rename _all, lower
 
     *Generating p-hat
     summarize treated2
-    scalar p-hat = r(mean)
+    scalar p_hat = r(mean)
 
-    *Generating effects
-    gen YiDi = re78 * treated2
-    gen YiDj = 
-    
+    *Find y * d
+    gen y_d = re78 * treated2
+    summarize y_d
+    scalar y_d_sum = r(sum)
+
+    *Find second term wo rescaling
+    gen wo_rescale = (1 - p_hat) / p_hat * pscoreb * re78 * (1 - treated2)/(1 - pscoreb)
+    summarize wo_rescale
+    scalar wo_rescale_sum = r(sum)
+
+    *Find second term w rescaling
+    gen rescaling = pscoreb * (1-treated2)/(1-pscoreb) 
+    summarize rescaling
+    scalar rescaling = 1/n_0 * r(sum)
+    gen w_rescale = (1/rescaling) * pscoreb * re78 * (1 - treated2)/(1-pscoreb)
+    summarize w_rescale
+    scalar w_rescale_sum = r(sum)
+
+    *Treatment effect on treated ipw w and wo rescaling
+    display 1/n_1 * y_d_sum - 1/n_0 * wo_rescale_sum
+    display 1/n_1 * y_d_sum - 1/n_0 * w_rescale_sum
+
+log close
