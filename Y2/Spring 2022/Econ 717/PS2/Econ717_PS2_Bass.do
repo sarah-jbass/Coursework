@@ -47,12 +47,21 @@ rename _all, lower
     
 
 *Question 4
-    *Look at distributions of each propensity scores
-    bysort treated2: summ pscorea, detail
-    bysort treated2: summ pscoreb, detail
+    *Look at distributions of each coarse scores
+    est clear
+    estpost tabstat pscorea, by(treated2) c(stat) stat(mean, sd, min, median, max, count)
+        esttab, cells("mean(fmt(%13.2fc)) sd(fmt(%13.2fc)) min(fmt(%13.2fc)) p50(fmt(%13.2fc)) max(fmt(%13.2fc))  count(fmt(%13.0fc))") nonumber nomtitle nonote noobs label collabels("Mean" "SD" "Min" "Median" "Max" "N")
+        esttab using "table_4a.tex", replace cells("mean(fmt(%13.2fc)) sd(fmt(%13.2fc)) min(fmt(%13.2fc)) p50(fmt(%13.2fc)) max(fmt(%13.2fc))  count(fmt(%13.0fc))") nonumber nomtitle nonote noobs label collabels("Mean" "SD" "Min" "Median" "Max" "N")
+
+    *Rich scores
+    est clear
+    estpost tabstat pscoreb, by(treated2) c(stat) stat(mean, sd, min, median, max, count)
+        esttab, cells("mean(fmt(%13.2fc)) sd(fmt(%13.2fc)) min(fmt(%13.2fc)) p50(fmt(%13.2fc)) max(fmt(%13.2fc))  count(fmt(%13.0fc))") nonumber nomtitle nonote noobs label collabels("Mean" "SD" "Min" "Median" "Max" "N")
+        esttab using "table_4b.tex", replace cells("mean(fmt(%13.2fc)) sd(fmt(%13.2fc)) min(fmt(%13.2fc)) p50(fmt(%13.2fc)) max(fmt(%13.2fc))  count(fmt(%13.0fc))") nonumber nomtitle nonote noobs label collabels("Mean" "SD" "Min" "Median" "Max" "N")
+
 
 *Question 5
-    /* *Histogram for coarse scores
+    *Histogram for coarse scores
     egen binsa=cut(pscorea), at(0(.05)1) icodes 
     graph bar (count) pscorea if binsa>0, over(treated2) over(binsa, label(nolab)) asyvars title("Coarse Propensity Scores")
         graph export q4_scorea.png, replace
@@ -60,7 +69,7 @@ rename _all, lower
     *Histogram for rich scores
     egen binsb=cut(pscoreb), at(0(.05)1) icodes 
     graph bar (count) pscoreb if binsb>0, over(treated2) over(binsb, label(nolab)) asyvars title("Rich Propensity Scores")
-        graph export q4_scoreb.png, replace */
+        graph export q4_scoreb.png, replace 
 
 *Question 6
     global table_number=6 // all of this global stuff is just to make tables
@@ -115,7 +124,7 @@ rename _all, lower
 
     *Std diff for re75 using weights = diff/std err
     psmatch2 treated2, outcome(re75) pscore(pscoreb) neighbor(1) common 
-
+pause
 *Question 9
     global table_number = 9
 
