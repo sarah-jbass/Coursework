@@ -87,30 +87,30 @@ function ll(b=[0.0,0.0]; θ::parameters=θ_0, df=data) # b is our guess of [μ_1
 end
 
 
-# # 2d identification plot for μ_1 and ρ
-# function id_plot_3d(μ_hat::Float64, ρ_hat::Float64; θ::parameters=θ_0)
+# 2d identification plot for μ_1 and ρ
+function id_plot_3d(μ_hat::Float64, ρ_hat::Float64; θ::parameters=θ_0)
 
-#     # grids
-#     μ_1 = 1.0:0.05:1.25
-#     ρ = 0.0:0.05:0.5
-#     ll_hat = Array{Float64}(undef, length(μ_1), length(ρ))
+    # grids
+    μ_1 = 1.0:0.025:1.5
+    ρ = 0.0:0.025:0.5
+    ll_hat = Array{Float64}(undef, length(μ_1), length(ρ))
 
-#     for i in 1:length(μ_1)
-#         for j in 1:length(ρ)
+    for i in 1:length(μ_1)
+        for j in 1:length(ρ)
 
-#         # function for plotting
-#         ll_hat[i,j] =  ll([μ_1[i], ρ[j]])
+        # function for plotting
+        ll_hat[i,j] =  ll([μ_1[i], ρ[j]])
 
-#         end
-#     end
+        end
+    end
 
-#     # create plot
-#     heatmap(μ_1, ρ, ll_hat)
-#     scatter!([θ_0.μ_1], [θ_0.ρ], label = "(μ_1_0, ρ_0)")
-#     scatter!([μ_hat], [ρ_hat], label = "(μ_1_hat, ρ_hat)")
-#     xlabel!("μ_1")
-#     ylabel!("ρ")
-# end
+    # create plot
+    heatmap(μ_1, ρ, ll_hat)
+    scatter!([θ_0.μ_1], [θ_0.ρ], label = "True Value")
+    scatter!([μ_hat], [ρ_hat], label = "Estimates")
+    xlabel!("μ_1")
+    ylabel!("ρ")
+end
 
 # # identification plot for μ_1
 # function id_plot_μ_1(μ_1_hat::Float64, ρ_hat::Float64, θ_0::parameters, d::data; method = "builtin")

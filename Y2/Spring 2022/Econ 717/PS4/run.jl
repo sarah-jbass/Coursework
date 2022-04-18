@@ -11,8 +11,11 @@ using Latexify, LaTeXStrings
 data = sim_data(θ_0)
 
 # estimate log likelihood
-b_0 = [1.15, 0.25] # = [μ_1, ρ] initial estimates
+b_0 = [1., 0.2] # = [μ_1, ρ] initial estimates
 res = optimize(ll, b_0)
+
+# plot mle results
+id_plot_3d(res.minimizer[1], res.minimizer[2])
 
 # output results to latex
 mu_hat = latexify(res.minimizer[1]; fmt = "%2.3f")
